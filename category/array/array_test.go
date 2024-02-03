@@ -1,9 +1,11 @@
 package array
 
 import (
+	"reflect"
 	"testing"
 )
 
+// https://github.com/youngyangyang04/leetcode-master?tab=readme-ov-file
 func TestRemoveElement(t *testing.T) {
 	cases := []struct {
 		description string
@@ -47,6 +49,74 @@ func TestRemoveElement(t *testing.T) {
 			result := removeElement(tt.nums, tt.val)
 			if result != tt.length {
 				t.Errorf("expected length is %d, got %d!", tt.length, result)
+			}
+		})
+	}
+}
+
+func TestMid(t *testing.T) {
+	abs := func(n int) int {
+		if n < 0 {
+			return -n
+		}
+		return n
+	}
+	nums := []int{-5, 0, 1, 1, 2}
+	left := 0
+	right := len(nums) - 1
+	for left < right-1 {
+		mid := left + (right-left)>>1
+		if abs(nums[left]) < abs(nums[right]) {
+			if nums[right]*nums[mid] > 0 {
+				right = mid
+			} else {
+				left = mid
+			}
+		} else {
+			if nums[left]*nums[mid] > 0 {
+				left = mid
+			} else {
+				right = mid
+			}
+		}
+	}
+	t.Logf("left=%d,right=%d", left, right)
+}
+
+func TestSortedSquares(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{
+			name: "example0",
+			args: args{[]int{-4, -1, 0, 3, 10}},
+			want: []int{0, 1, 9, 16, 100},
+		},
+		{
+			name: "example1",
+			args: args{[]int{-7, -3, 2, 3, 11}},
+			want: []int{4, 9, 9, 49, 121},
+		},
+		{
+			name: "example2",
+			args: args{[]int{0}},
+			want: []int{0},
+		},
+		{
+			name: "example3",
+			args: args{[]int{-5, 0, 1, 1, 2}},
+			want: []int{0, 1, 1, 4, 25},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := sortedSquares(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("sortedSquares() = %v, want %v", got, tt.want)
 			}
 		})
 	}
