@@ -81,3 +81,18 @@ func isHappy(n int) bool {
 	}
 	return n == 1
 }
+
+// twoSum 1. 两数之和 https://leetcode.cn/problems/two-sum/
+func twoSum(nums []int, target int) []int {
+	ans := make([]int, 2)
+	count := make(map[int]int)
+	for i, num := range nums {
+		if index, ok := count[target-num]; ok {
+			ans[0] = index
+			ans[1] = i
+			return ans
+		}
+		count[num] = i
+	}
+	return ans
+}
