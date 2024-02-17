@@ -64,3 +64,20 @@ func intersection(nums1 []int, nums2 []int) []int {
 	}
 	return result
 }
+
+// isHappy 202. 快乐数 https://leetcode.cn/problems/happy-number/
+func isHappy(n int) bool {
+	getSum := func(n int) int {
+		sum := 0
+		for n > 0 {
+			sum += (n % 10) * (n % 10)
+			n = n / 10
+		}
+		return sum
+	}
+	m := make(map[int]bool)
+	for n != 1 && !m[n] {
+		n, m[n] = getSum(n), true
+	}
+	return n == 1
+}
