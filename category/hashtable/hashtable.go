@@ -47,3 +47,20 @@ func commonChars(words []string) []string {
 	}
 	return ans
 }
+
+// intersection 349. 两个数组的交集 https://leetcode.cn/problems/intersection-of-two-arrays/description/
+func intersection(nums1 []int, nums2 []int) []int {
+	countMap := make(map[int]bool)
+	for _, num := range nums1 {
+		countMap[num] = true
+	}
+
+	result := make([]int, 0)
+	for _, num := range nums2 {
+		if countMap[num] == true {
+			countMap[num] = false
+			result = append(result, num)
+		}
+	}
+	return result
+}
