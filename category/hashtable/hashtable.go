@@ -113,3 +113,23 @@ func fourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) int {
 	}
 	return ans
 }
+
+// canConstruct 383. 赎金信 https://leetcode.cn/problems/ransom-note/
+func canConstruct(ransomNote string, magazine string) bool {
+	if len(ransomNote) > len(magazine) {
+		return false
+	}
+	count := [26]int{}
+	for _, ch := range magazine {
+		count[ch-'a']++
+	}
+	for _, ch := range ransomNote {
+		count[ch-'a']--
+	}
+	for _, v := range count {
+		if v < 0 {
+			return false
+		}
+	}
+	return true
+}
