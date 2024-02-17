@@ -96,3 +96,20 @@ func twoSum(nums []int, target int) []int {
 	}
 	return ans
 }
+
+// fourSumCount 454. 四数相加 II https://leetcode.cn/problems/4sum-ii/
+func fourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) int {
+	countMap := make(map[int]int)
+	ans := 0
+	for _, v1 := range nums1 {
+		for _, v2 := range nums2 {
+			countMap[v1+v2]++
+		}
+	}
+	for _, v3 := range nums3 {
+		for _, v4 := range nums4 {
+			ans += countMap[-v3-v4]
+		}
+	}
+	return ans
+}
