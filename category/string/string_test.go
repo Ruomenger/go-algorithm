@@ -78,3 +78,25 @@ func TestReverseStr(t *testing.T) {
 		})
 	}
 }
+
+func Test_repeatedSubstringPattern(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"example1", args{"abab"}, true},
+		{"example2", args{"aba"}, false},
+		{"example3", args{"abcabcabcabc"}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := repeatedSubstringPattern(tt.args.s); got != tt.want {
+				t.Errorf("repeatedSubstringPattern() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

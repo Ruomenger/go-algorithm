@@ -1,5 +1,9 @@
 package string
 
+import (
+	"strings"
+)
+
 // reverseString 344. 反转字符串 https://leetcode.cn/problems/reverse-string/
 func reverseString(s []byte) {
 	for i := 0; i < len(s)/2; i++ {
@@ -63,4 +67,13 @@ func reverse(b []byte) {
 		left++
 		right--
 	}
+}
+
+// repeatedSubstringPattern 459. 重复的子字符串 https://leetcode.cn/problems/repeated-substring-pattern/
+func repeatedSubstringPattern(s string) bool {
+	if len(s) == 1 {
+		return false
+	}
+	ss := s[1:] + s[:len(s)-1]
+	return strings.Contains(ss, s)
 }
