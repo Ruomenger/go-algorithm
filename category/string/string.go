@@ -77,3 +77,42 @@ func repeatedSubstringPattern(s string) bool {
 	ss := s[1:] + s[:len(s)-1]
 	return strings.Contains(ss, s)
 }
+
+// reverseWords 151. 反转字符串中的单词 https://leetcode.cn/problems/reverse-words-in-a-string/
+func reverseWords(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+	b := []byte(s)
+	reverse := func(b []byte) {
+		left, right := 0, len(b)-1
+		for left < right {
+			b[left], b[right] = b[right], b[left]
+			left++
+			right--
+		}
+	}
+	i, j := 0, 0
+	for ; b[j] == ' ' && j < len(b); j++ {
+	}
+	for ; j < len(b); j++ {
+		if j > 1 && b[j-1] == ' ' && b[j] == ' ' {
+			continue
+		}
+		b[i] = b[j]
+		i++
+	}
+	for i > 1 && b[i-1] == ' ' {
+		i--
+	}
+	b = b[:i]
+	reverse(b)
+	for i := 0; i < len(b); i++ {
+		j := i
+		for ; j < len(b) && b[j] != ' '; j++ {
+		}
+		reverse(b[i:j])
+		i = j
+	}
+	return string(b)
+}
