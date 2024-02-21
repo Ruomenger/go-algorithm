@@ -154,3 +154,19 @@ func isValid(s string) bool {
 	}
 	return len(stack) == 0
 }
+
+// removeDuplicates 1047. 删除字符串中的所有相邻重复项 https://leetcode.cn/problems/remove-all-adjacent-duplicates-in-string
+func removeDuplicates(s string) string {
+	if len(s) <= 1 {
+		return s
+	}
+	stack := make([]byte, 0)
+	for _, ch := range s {
+		if len(stack) > 0 && stack[len(stack)-1] == byte(ch) {
+			stack = stack[:len(stack)-1]
+		} else {
+			stack = append(stack, byte(ch))
+		}
+	}
+	return string(stack)
+}
