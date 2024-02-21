@@ -115,3 +115,42 @@ func (s *MyStack) Empty() bool {
  * param_3 := obj.Top();
  * param_4 := obj.Empty();
  */
+
+// isValid 20. 有效的括号 https://leetcode.cn/problems/valid-parentheses/description/
+func isValid(s string) bool {
+	if len(s) == 0 || len(s)%2 != 0 {
+		return false
+	}
+	stack := make([]int32, 0)
+	for _, ch := range s {
+		switch ch {
+		case '(', '{', '[':
+			stack = append(stack, ch)
+		case ')':
+			if len(stack) == 0 {
+				return false
+			} else if stack[len(stack)-1] != '(' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		case '}':
+			if len(stack) == 0 {
+				return false
+			} else if stack[len(stack)-1] != '{' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		case ']':
+			if len(stack) == 0 {
+				return false
+			} else if stack[len(stack)-1] != '[' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		default:
+			return false
+		}
+
+	}
+	return len(stack) == 0
+}
