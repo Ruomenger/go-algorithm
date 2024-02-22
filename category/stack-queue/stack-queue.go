@@ -1,5 +1,7 @@
 package stack_queue
 
+import "strconv"
+
 type Stack []int
 
 func (s *Stack) Push(v int) {
@@ -169,4 +171,34 @@ func removeDuplicates(s string) string {
 		}
 	}
 	return string(stack)
+}
+
+// evalRPN 150. 逆波兰表达式求值 https://leetcode.cn/problems/evaluate-reverse-polish-notation/
+func evalRPN(tokens []string) int {
+	stack := make([]string, 0)
+	for _, str := range tokens {
+		if str == "+" || str == "-" || str == "*" || str == "/" {
+			num1, _ := strconv.Atoi(stack[len(stack)-2])
+			num2, _ := strconv.Atoi(stack[len(stack)-1])
+			stack = stack[:len(stack)-2]
+			num := 0
+			if str == "+" {
+				num = num1 + num2
+				stack = append(stack, strconv.Itoa(num))
+			} else if str == "-" {
+				num = num1 - num2
+				stack = append(stack, strconv.Itoa(num))
+			} else if str == "*" {
+				num = num1 * num2
+				stack = append(stack, strconv.Itoa(num))
+			} else {
+				num = num1 / num2
+				stack = append(stack, strconv.Itoa(num))
+			}
+		} else {
+			stack = append(stack, str)
+		}
+	}
+	ans, _ := strconv.Atoi(stack[0])
+	return ans
 }
