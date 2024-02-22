@@ -202,3 +202,44 @@ func evalRPN(tokens []string) int {
 	ans, _ := strconv.Atoi(stack[0])
 	return ans
 }
+
+type MyQueue1 struct {
+	nums []int
+}
+
+func (q *MyQueue1) Pop(value int) {
+	if len(q.nums) != 0 && q.nums[0] == value {
+		q.nums = q.nums[1:]
+	}
+}
+
+func (q *MyQueue1) Push(value int) {
+	for len(q.nums) != 0 && value > q.nums[len(q.nums)-1] {
+		q.nums = q.nums[:len(q.nums)-1]
+	}
+	q.nums = append(q.nums, value)
+}
+
+func (q *MyQueue1) Front() int {
+	if len(q.nums) != 0 {
+		return q.nums[0]
+	}
+	return 0
+}
+
+// maxSlidingWindow 239. 滑动窗口最大值 https://leetcode.cn/problems/sliding-window-maximum/
+func maxSlidingWindow(nums []int, k int) []int {
+	q := MyQueue1{nums: make([]int, 0)}
+	i := 0
+	for ; i < k; i++ {
+		q.Push(nums[i])
+	}
+	res := make([]int, 0)
+	res = append(res, q.Front())
+	for i := k; i < len(nums); i++ {
+		q.Pop(nums[i-k])
+		q.Push(nums[i])
+		res = append(res, q.Front())
+	}
+	return res
+}
