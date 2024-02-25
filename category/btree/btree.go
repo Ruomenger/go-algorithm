@@ -49,3 +49,36 @@ func preorderTraversalIter(root *TreeNode) []int {
 	}
 	return nums
 }
+
+// inorderTraversalRec 递归版 94. 二叉树的中序遍历 https://leetcode.cn/problems/binary-tree-inorder-traversal
+func inorderTraversalRec(root *TreeNode) []int {
+	nums := make([]int, 0)
+	var inorder func(node *TreeNode)
+	inorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		inorder(node.Left)
+		nums = append(nums, node.Val)
+		inorder(node.Right)
+	}
+	inorder(root)
+	return nums
+}
+
+// inorderTraversalIter 迭代版 94. 二叉树的中序遍历 https://leetcode.cn/problems/binary-tree-inorder-traversal
+func inorderTraversalIter(root *TreeNode) []int {
+	nums := make([]int, 0)
+	stack := make([]*TreeNode, 0)
+	for len(stack) != 0 || root != nil {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		nums = append(nums, root.Val)
+		root = root.Right
+	}
+	return nums
+}
