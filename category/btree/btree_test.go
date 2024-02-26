@@ -148,3 +148,41 @@ func TestPostorderTraversalRec(t *testing.T) {
 		})
 	}
 }
+
+func TestLevelOrder(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	test1 := args{
+		&TreeNode{
+			Val:   3,
+			Left:  nil,
+			Right: nil,
+		}}
+	test1.root.Left = &TreeNode{Val: 9}
+	test1.root.Right = &TreeNode{Val: 20}
+	test1.root.Right.Left = &TreeNode{Val: 15}
+	test1.root.Right.Right = &TreeNode{Val: 7}
+	test2 := args{
+		&TreeNode{
+			Val: 1,
+		},
+	}
+	test3 := args{}
+	tests := []struct {
+		name string
+		args args
+		want [][]int
+	}{
+		{"test1", test1, [][]int{{3}, {9, 20}, {15, 7}}},
+		{"test2", test2, [][]int{{1}}},
+		{"test3", test3, [][]int{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := levelOrder(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("levelOrder() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

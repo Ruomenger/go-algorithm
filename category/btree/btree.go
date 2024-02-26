@@ -1,5 +1,7 @@
 package btree
 
+import "container/list"
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -119,6 +121,32 @@ func postorderTraversalIter(root *TreeNode) []int {
 			stack = append(stack, root)
 			root = root.Right
 		}
+	}
+	return nums
+}
+
+// levelOrder 102. 二叉树的层序遍历 https://leetcode.cn/problems/binary-tree-level-order-traversal
+func levelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	nums := make([][]int, 0)
+	for queue.Len() != 0 {
+		size := queue.Len()
+		var tmpArr []int
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+			tmpArr = append(tmpArr, node.Val)
+		}
+		nums = append(nums, tmpArr)
 	}
 	return nums
 }
