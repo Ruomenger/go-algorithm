@@ -150,3 +150,34 @@ func levelOrder(root *TreeNode) [][]int {
 	}
 	return nums
 }
+
+// levelOrderBottom 107. 二叉树的层序遍历 II https://leetcode.cn/problems/binary-tree-level-order-traversal-ii
+func levelOrderBottom(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	nums := make([][]int, 0)
+	for queue.Len() != 0 {
+		size := queue.Len()
+		var tmpArr []int
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+			tmpArr = append(tmpArr, node.Val)
+		}
+		nums = append(nums, tmpArr)
+	}
+	for i, j := 0, len(nums)-1; i < j; {
+		nums[i], nums[j] = nums[j], nums[i]
+		i++
+		j--
+	}
+	return nums
+}
