@@ -209,3 +209,26 @@ func rightSideView(root *TreeNode) []int {
 	}
 	return nums
 }
+
+// invertTree 226. 翻转二叉树 https://leetcode.cn/problems/invert-binary-tree
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	for queue.Len() != 0 {
+		size := queue.Len()
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			node.Left, node.Right = node.Right, node.Left
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return root
+}
