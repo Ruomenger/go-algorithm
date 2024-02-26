@@ -262,3 +262,46 @@ func TestRightSideView(t *testing.T) {
 		})
 	}
 }
+
+func TestIsSymmetric(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	test1 := args{
+		&TreeNode{
+			Val: 1,
+		}}
+	test1.root.Left = &TreeNode{Val: 2}
+	test1.root.Right = &TreeNode{Val: 2}
+	test1.root.Left.Left = &TreeNode{Val: 3}
+	test1.root.Left.Right = &TreeNode{Val: 4}
+	test1.root.Right.Left = &TreeNode{Val: 4}
+	test1.root.Right.Right = &TreeNode{Val: 3}
+	test2 := args{
+		&TreeNode{
+			Val: 1,
+		},
+	}
+	test2.root.Left = &TreeNode{Val: 2}
+	test2.root.Right = &TreeNode{Val: 2}
+	test2.root.Left.Right = &TreeNode{Val: 3}
+	test2.root.Right.Right = &TreeNode{Val: 3}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", test1, true},
+		{"test2", test2, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isSymmetricRec(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("isSymmetricRec() = %v, want %v", got, tt.want)
+			}
+			if got := isSymmetricIter(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("isSymmetricIter() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

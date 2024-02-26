@@ -232,3 +232,40 @@ func invertTree(root *TreeNode) *TreeNode {
 	}
 	return root
 }
+
+// isSymmetricRec 101. 对称二叉树 https://leetcode.cn/problems/symmetric-tree
+func isSymmetricRec(root *TreeNode) bool {
+	var check func(left, right *TreeNode) bool
+	check = func(left, right *TreeNode) bool {
+		if left == nil && right == nil {
+			return true
+		}
+		if left == nil || right == nil {
+			return false
+		}
+		return left.Val == right.Val && check(left.Left, right.Right) && check(left.Right, right.Left)
+	}
+	return check(root, root)
+}
+
+// isSymmetricIter 101. 对称二叉树 https://leetcode.cn/problems/symmetric-tree
+func isSymmetricIter(root *TreeNode) bool {
+	queue := list.New()
+	queue.PushBack(root)
+	queue.PushBack(root)
+	for queue.Len() != 0 {
+		left := queue.Remove(queue.Front()).(*TreeNode)
+		right := queue.Remove(queue.Front()).(*TreeNode)
+		if left == nil && right == nil {
+			continue
+		}
+		if left == nil || right == nil || left.Val != right.Val {
+			return false
+		}
+		queue.PushBack(left.Left)
+		queue.PushBack(right.Right)
+		queue.PushBack(left.Right)
+		queue.PushBack(right.Left)
+	}
+	return true
+}
