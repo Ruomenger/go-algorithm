@@ -181,3 +181,31 @@ func levelOrderBottom(root *TreeNode) [][]int {
 	}
 	return nums
 }
+
+// rightSideView 199. 二叉树的右视图 https://leetcode.cn/problems/binary-tree-right-side-view/
+func rightSideView(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	nums := make([]int, 0)
+	for queue.Len() != 0 {
+		size := queue.Len()
+		var tempNode *TreeNode
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+			if i == size-1 {
+				tempNode = node
+			}
+		}
+		nums = append(nums, tempNode.Val)
+	}
+	return nums
+}
