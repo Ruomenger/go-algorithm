@@ -269,3 +269,28 @@ func isSymmetricIter(root *TreeNode) bool {
 	}
 	return true
 }
+
+// maxDepth 104. 二叉树的最大深度 https://leetcode.cn/problems/maximum-depth-of-binary-tree
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	depth := 0
+	for queue.Len() != 0 {
+		size := queue.Len()
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			node.Left, node.Right = node.Right, node.Left
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+		depth++
+	}
+	return depth
+}
