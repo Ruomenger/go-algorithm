@@ -294,3 +294,53 @@ func maxDepth(root *TreeNode) int {
 	}
 	return depth
 }
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// minDepth 111. 二叉树的最小深度 https://leetcode.cn/problems/minimum-depth-of-binary-tree
+func minDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	if root.Left == nil && root.Right == nil {
+		return 1
+	} else if root.Left != nil && root.Right == nil {
+		return minDepth(root.Left) + 1
+	} else if root.Left == nil && root.Right != nil {
+		return minDepth(root.Right) + 1
+	}
+	return min(minDepth(root.Left)+1, minDepth(root.Right)+1)
+}
+
+// minDepth2 111. 二叉树的最小深度 https://leetcode.cn/problems/minimum-depth-of-binary-tree
+func minDepth2(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	dep := 0
+	for queue.Len() != 0 {
+		dep++
+		// TODO 这里注意要把长度保存下来，否则push数据后会影响长度
+		length := queue.Len()
+		for i := 0; i < length; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if node.Left == nil && node.Right == nil {
+				return dep
+			}
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return dep
+}

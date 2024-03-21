@@ -305,3 +305,38 @@ func TestIsSymmetric(t *testing.T) {
 		})
 	}
 }
+
+func Test_minDepth(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 9}
+	root1.Right = &TreeNode{Val: 20}
+	root1.Right.Left = &TreeNode{Val: 15}
+	root1.Right.Right = &TreeNode{Val: 7}
+
+	root2 := &TreeNode{Val: 1}
+	root2.Right = &TreeNode{Val: 2}
+	root2.Right.Right = &TreeNode{Val: 3}
+	root2.Right.Right.Right = &TreeNode{Val: 4}
+
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 2},
+		{"test2", args{root2}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minDepth(tt.args.root); got != tt.want {
+				t.Errorf("minDepth() = %v, want %v", got, tt.want)
+			}
+			if got := minDepth2(tt.args.root); got != tt.want {
+				t.Errorf("minDepth2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
