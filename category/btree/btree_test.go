@@ -340,3 +340,32 @@ func Test_minDepth(t *testing.T) {
 		})
 	}
 }
+
+func Test_isBalanced(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+
+	root2 := &TreeNode{Val: 1}
+	root2.Left = &TreeNode{Val: 2}
+	root2.Right = &TreeNode{Val: 2}
+	root2.Left.Left = &TreeNode{Val: 3}
+	root2.Left.Right = &TreeNode{Val: 3}
+	root2.Left.Left.Left = &TreeNode{Val: 4}
+	root2.Left.Left.Right = &TreeNode{Val: 4}
+
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test2", args{root2}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isBalanced(tt.args.root); got != tt.want {
+				t.Errorf("isBalanced() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

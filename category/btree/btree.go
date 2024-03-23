@@ -344,3 +344,30 @@ func minDepth2(root *TreeNode) int {
 	}
 	return dep
 }
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func getDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	leftDepth := getDepth(root.Left)
+	rightDepth := getDepth(root.Right)
+	if leftDepth == -1 || rightDepth == -1 {
+		return -1
+	}
+	if leftDepth-rightDepth > 1 || rightDepth-leftDepth > 1 {
+		return -1
+	}
+	return max(leftDepth+1, rightDepth+1)
+}
+
+// isBalanced 110. 平衡二叉树 https://leetcode.cn/problems/balanced-binary-tree
+func isBalanced(root *TreeNode) bool {
+	return getDepth(root) != -1
+}
