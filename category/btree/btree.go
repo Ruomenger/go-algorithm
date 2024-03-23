@@ -371,3 +371,21 @@ func getDepth(root *TreeNode) int {
 func isBalanced(root *TreeNode) bool {
 	return getDepth(root) != -1
 }
+
+// countNodes 222. 完全二叉树的节点个数 https://leetcode.cn/problems/count-complete-tree-nodes
+func countNodes(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	leftHeight, rightHeight := 0, 0
+	for left := root.Left; left != nil; left = left.Left {
+		leftHeight++
+	}
+	for right := root.Right; right != nil; right = right.Right {
+		rightHeight++
+	}
+	if leftHeight == rightHeight {
+		return (2 << leftHeight) - 1
+	}
+	return countNodes(root.Left) + countNodes(root.Right) + 1
+}
