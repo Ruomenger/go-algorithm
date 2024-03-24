@@ -1,6 +1,9 @@
 package btree
 
-import "container/list"
+import (
+	"container/list"
+	"strconv"
+)
 
 type TreeNode struct {
 	Val   int
@@ -388,4 +391,30 @@ func countNodes(root *TreeNode) int {
 		return (2 << leftHeight) - 1
 	}
 	return countNodes(root.Left) + countNodes(root.Right) + 1
+}
+
+func getPath(root *TreeNode, prefix string, ans []string) []string {
+	if root == nil {
+		return ans
+	}
+	if prefix != "" {
+		prefix = prefix + "->"
+	}
+	if root.Left == nil && root.Right == nil {
+		ans = append(ans, prefix+strconv.Itoa(root.Val))
+		return ans
+	}
+	if root.Left != nil {
+		ans = getPath(root.Left, prefix+strconv.Itoa(root.Val), ans)
+	}
+	if root.Right != nil {
+		ans = getPath(root.Right, prefix+strconv.Itoa(root.Val), ans)
+	}
+	return ans
+}
+
+// binaryTreePaths 257. 二叉树的所有路径 https://leetcode.cn/problems/binary-tree-paths
+func binaryTreePaths(root *TreeNode) []string {
+	ans := make([]string, 0)
+	return getPath(root, "", ans)
 }
