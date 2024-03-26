@@ -418,3 +418,30 @@ func binaryTreePaths(root *TreeNode) []string {
 	ans := make([]string, 0)
 	return getPath(root, "", ans)
 }
+
+// sumOfLeftLeaves 404. 左叶子之和 https://leetcode.cn/problems/sum-of-left-leaves
+func sumOfLeftLeaves(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	sum := 0
+	for queue.Len() != 0 {
+		size := queue.Len()
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if node.Left != nil {
+				if node.Left.Left == nil && node.Left.Right == nil {
+					sum += node.Left.Val
+				} else {
+					queue.PushBack(node.Left)
+				}
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return sum
+}
