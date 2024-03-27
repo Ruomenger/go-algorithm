@@ -471,3 +471,17 @@ func findBottomLeftValue(root *TreeNode) int {
 	}
 	return ans
 }
+
+// hasPathSum 112. 路径总和 https://leetcode.cn/problems/path-sum
+func hasPathSum(root *TreeNode, targetSum int) bool {
+	if root == nil {
+		return false
+	}
+	if root.Left == nil && root.Right == nil {
+		if root.Val == targetSum {
+			return true
+		}
+		return false
+	}
+	return hasPathSum(root.Left, targetSum-root.Val) || hasPathSum(root.Right, targetSum-root.Val)
+}
