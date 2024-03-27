@@ -445,3 +445,29 @@ func sumOfLeftLeaves(root *TreeNode) int {
 	}
 	return sum
 }
+
+// findBottomLeftValue 513. 找树左下角的值 https://leetcode.cn/problems/find-bottom-left-tree-value
+func findBottomLeftValue(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	ans := root.Val
+	queue := list.New()
+	queue.PushBack(root)
+	for queue.Len() != 0 {
+		size := queue.Len()
+		for i := 0; i < size; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			if i == 0 {
+				ans = node.Val
+			}
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+	}
+	return ans
+}
