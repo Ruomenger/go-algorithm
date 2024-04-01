@@ -369,3 +369,39 @@ func Test_isBalanced(t *testing.T) {
 		})
 	}
 }
+
+func Test_buildTree(t *testing.T) {
+	type args struct {
+		inorder   []int
+		postorder []int
+	}
+	root1 := &TreeNode{
+		Val: 3,
+	}
+	root1.Left = &TreeNode{
+		Val: 9,
+	}
+	root1.Right = &TreeNode{
+		Val: 20,
+	}
+	root1.Right.Left = &TreeNode{
+		Val: 15,
+	}
+	root1.Right.Right = &TreeNode{
+		Val: 7,
+	}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{[]int{9, 3, 15, 20, 7}, []int{9, 15, 7, 20, 3}}, root1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := buildTree(tt.args.inorder, tt.args.postorder); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("buildTree() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

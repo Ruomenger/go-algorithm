@@ -485,3 +485,35 @@ func hasPathSum(root *TreeNode, targetSum int) bool {
 	}
 	return hasPathSum(root.Left, targetSum-root.Val) || hasPathSum(root.Right, targetSum-root.Val)
 }
+
+func buildTree(inorder []int, postorder []int) *TreeNode {
+	length := len(inorder)
+	if length == 0 {
+		return nil
+	}
+	inorderMap := make(map[int]int, len(inorder))
+	for i, num := range inorder {
+		inorderMap[num] = i
+	}
+	rootIdx := inorderMap[postorder[length-1]]
+	root := &TreeNode{
+		Val: postorder[length-1],
+	}
+	var buildTreeFrom func(inStart, inEnd, postStart, postEnd int) *TreeNode
+	buildTreeFrom = func(inStart, inEnd, postStart, postEnd int) *TreeNode {
+		if inStart > inEnd {
+			return nil
+		}
+		idx := inorderMap[postorder[postEnd]]
+		node := &TreeNode{
+			Val: postorder[postEnd],
+		}
+
+		node.Left = buildTreeFrom(inStart, idx-1, postStart, postStart+idx-1-inStart)
+		node.Right = buildTreeFrom(idx+1, inEnd, postEnd+idx-inEnd, postEnd-1)
+		return node
+	}
+	root.Left = buildTreeFrom(0, rootIdx-1, 0, rootIdx-1)
+	root.Right = buildTreeFrom(rootIdx+1, length-1, rootIdx, length-2)
+	return root
+}
