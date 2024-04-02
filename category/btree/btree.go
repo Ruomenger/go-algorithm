@@ -575,3 +575,18 @@ func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 	node.Right = mergeTrees(root1.Right, root2.Right)
 	return node
 }
+
+// searchBST 700. 二叉搜索树中的搜索
+func searchBST(root *TreeNode, val int) *TreeNode {
+	for root != nil {
+		if root.Val == val {
+			return root
+		}
+		if root.Val > val {
+			root = root.Left
+		} else {
+			root = root.Right
+		}
+	}
+	return nil
+}

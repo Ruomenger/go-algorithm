@@ -470,3 +470,29 @@ func Test_mergeTrees(t *testing.T) {
 		})
 	}
 }
+
+func Test_searchBST(t *testing.T) {
+	type args struct {
+		root *TreeNode
+		val  int
+	}
+	root1 := &TreeNode{Val: 4}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Right = &TreeNode{Val: 7}
+	root1.Left.Left = &TreeNode{Val: 1}
+	root1.Left.Right = &TreeNode{Val: 3}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, 2}, root1.Left},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := searchBST(tt.args.root, tt.args.val); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("searchBST() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
