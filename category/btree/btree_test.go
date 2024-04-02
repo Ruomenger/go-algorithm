@@ -405,3 +405,30 @@ func Test_buildTree(t *testing.T) {
 		})
 	}
 }
+
+func Test_constructMaximumBinaryTree(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	root1 := &TreeNode{Val: 6}
+	root1.Left = &TreeNode{Val: 3}
+	root1.Right = &TreeNode{Val: 5}
+	root1.Left.Right = &TreeNode{Val: 2}
+	root1.Left.Right.Right = &TreeNode{Val: 1}
+	root1.Right.Left = &TreeNode{Val: 0}
+
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{[]int{3, 2, 1, 6, 0, 5}}, root1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := constructMaximumBinaryTree(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("constructMaximumBinaryTree() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

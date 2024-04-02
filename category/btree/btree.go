@@ -2,6 +2,7 @@ package btree
 
 import (
 	"container/list"
+	"math"
 	"strconv"
 )
 
@@ -516,4 +517,44 @@ func buildTree(inorder []int, postorder []int) *TreeNode {
 	root.Left = buildTreeFrom(0, rootIdx-1, 0, rootIdx-1)
 	root.Right = buildTreeFrom(rootIdx+1, length-1, rootIdx, length-2)
 	return root
+}
+
+// constructMaximumBinaryTree 654. 最大二叉树 https://leetcode.cn/problems/maximum-binary-tree
+func constructMaximumBinaryTree(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	num2IdxMap := make(map[int]int, len(nums))
+	maxNum := math.MinInt
+	for i, num := range nums {
+		num2IdxMap[num] = i
+		if num > maxNum {
+			maxNum = num
+		}
+	}
+	idx := num2IdxMap[maxNum]
+	// idx起始可以省略，因为自己可以找到
+	var buildTreeFrom func(start, idx, end int) *TreeNode
+	buildTreeFrom = func(start, idx, end int) *TreeNode {
+		if start > end {
+			return nil
+		}
+		node := &TreeNode{Val: nums[idx]}
+		leftMaxNum := math.MinInt
+		for i := start; i < idx; i++ {
+			if nums[i] > leftMaxNum {
+				leftMaxNum = nums[i]
+			}
+		}
+		node.Left = buildTreeFrom(start, num2IdxMap[leftMaxNum], idx-1)
+		rightMaxNum := math.MinInt
+		for i := idx + 1; i <= end; i++ {
+			if nums[i] > rightMaxNum {
+				rightMaxNum = nums[i]
+			}
+		}
+		node.Right = buildTreeFrom(idx+1, num2IdxMap[rightMaxNum], end)
+		return node
+	}
+	return buildTreeFrom(0, idx, len(nums)-1)
 }
