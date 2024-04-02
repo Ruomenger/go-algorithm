@@ -432,3 +432,41 @@ func Test_constructMaximumBinaryTree(t *testing.T) {
 		})
 	}
 }
+
+func Test_mergeTrees(t *testing.T) {
+	type args struct {
+		root1 *TreeNode
+		root2 *TreeNode
+	}
+	root11 := &TreeNode{Val: 1}
+	root11.Left = &TreeNode{Val: 3}
+	root11.Right = &TreeNode{Val: 2}
+	root11.Left.Left = &TreeNode{Val: 5}
+
+	root12 := &TreeNode{Val: 2}
+	root12.Left = &TreeNode{Val: 1}
+	root12.Right = &TreeNode{Val: 3}
+	root12.Left.Right = &TreeNode{Val: 4}
+	root12.Right.Right = &TreeNode{Val: 7}
+
+	root13 := &TreeNode{Val: 3}
+	root13.Left = &TreeNode{Val: 4}
+	root13.Right = &TreeNode{Val: 5}
+	root13.Left.Left = &TreeNode{Val: 5}
+	root13.Left.Right = &TreeNode{Val: 4}
+	root13.Right.Right = &TreeNode{Val: 7}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1: root11, root2: root12}, root13},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := mergeTrees(tt.args.root1, tt.args.root2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("mergeTrees() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
