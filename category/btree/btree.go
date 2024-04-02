@@ -590,3 +590,17 @@ func searchBST(root *TreeNode, val int) *TreeNode {
 	}
 	return nil
 }
+
+// isValidBST
+func isValidBST(root *TreeNode) bool {
+	if root == nil || (root.Left == nil && root.Right == nil) {
+		return true
+	}
+	if root.Left != nil && root.Val <= root.Left.Val {
+		return false
+	}
+	if root.Right != nil && root.Val >= root.Right.Val {
+		return false
+	}
+	return isValidBST(root.Left) && isValidBST(root.Right)
+}
