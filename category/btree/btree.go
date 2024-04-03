@@ -591,16 +591,21 @@ func searchBST(root *TreeNode, val int) *TreeNode {
 	return nil
 }
 
-// isValidBST
+// isValidBST 98. 验证二叉搜索树
 func isValidBST(root *TreeNode) bool {
-	if root == nil || (root.Left == nil && root.Right == nil) {
-		return true
+	var isValid func(root *TreeNode, minVal, maxVal int) bool
+	isValid = func(root *TreeNode, minVal, maxVal int) bool {
+		if root == nil || (root.Left == nil && root.Right == nil) {
+			return true
+		}
+		if root.Left != nil && !(root.Left.Val < root.Val && root.Left.Val > minVal) {
+			return false
+		}
+		if root.Right != nil && !(root.Right.Val > root.Val && root.Right.Val < maxVal) {
+			return false
+		}
+		return isValid(root.Left, minVal, root.Val) && isValid(root.Right, root.Val, maxVal)
 	}
-	if root.Left != nil && root.Val <= root.Left.Val {
-		return false
-	}
-	if root.Right != nil && root.Val >= root.Right.Val {
-		return false
-	}
-	return isValidBST(root.Left) && isValidBST(root.Right)
+
+	return isValid(root, math.MinInt, math.MaxInt)
 }

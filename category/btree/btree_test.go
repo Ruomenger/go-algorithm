@@ -501,12 +501,27 @@ func Test_isValidBST(t *testing.T) {
 	type args struct {
 		root *TreeNode
 	}
+	root1 := &TreeNode{Val: 5}
+	root1.Left = &TreeNode{Val: 4}
+	root1.Right = &TreeNode{Val: 6}
+	root1.Right.Left = &TreeNode{Val: 3}
+	root1.Right.Right = &TreeNode{Val: 7}
+
+	root2 := &TreeNode{Val: 3}
+	root2.Left = &TreeNode{Val: 1}
+	root2.Right = &TreeNode{Val: 5}
+	root2.Left.Left = &TreeNode{Val: 0}
+	root2.Left.Right = &TreeNode{Val: 2}
+	root2.Right.Left = &TreeNode{Val: 4}
+	root2.Right.Right = &TreeNode{Val: 6}
+	root2.Left.Right.Right = &TreeNode{Val: 3}
 	tests := []struct {
 		name string
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{"test1", args{root1}, false},
+		{"test2", args{root2}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
