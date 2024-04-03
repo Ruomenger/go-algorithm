@@ -609,3 +609,38 @@ func isValidBST(root *TreeNode) bool {
 
 	return isValid(root, math.MinInt, math.MaxInt)
 }
+
+// findMode 501. 二叉搜索树中的众数
+func findMode(root *TreeNode) []int {
+	if root == nil {
+		return nil
+	}
+	ret := make([]int, 0)
+	count := 0
+	maxCount := 0
+	var pre *TreeNode
+	var find func(cur *TreeNode)
+	find = func(cur *TreeNode) {
+		if cur == nil {
+			return
+		}
+		find(cur.Left)
+		if pre == nil {
+			count = 1
+		} else if pre.Val == cur.Val {
+			count++
+		} else {
+			count = 1
+		}
+		pre = cur
+		if count == maxCount {
+			ret = append(ret, cur.Val)
+		} else if count > maxCount {
+			maxCount = count
+			ret = []int{cur.Val}
+		}
+		find(cur.Right)
+	}
+	find(root)
+	return ret
+}

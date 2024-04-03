@@ -531,3 +531,33 @@ func Test_isValidBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_findMode(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 1}
+
+	root2 := &TreeNode{Val: 1}
+	root2.Right = &TreeNode{Val: 2}
+	root2.Right.Left = &TreeNode{Val: 2}
+
+	root3 := &TreeNode{Val: 1}
+	root3.Right = &TreeNode{Val: 2}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{"test1", args{root1}, []int{1}},
+		{"test2", args{root2}, []int{2}},
+		{"test3", args{root3}, []int{1, 2}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := findMode(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("findMode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
