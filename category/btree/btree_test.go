@@ -561,3 +561,49 @@ func Test_findMode(t *testing.T) {
 		})
 	}
 }
+
+func Test_lowestCommonAncestor(t *testing.T) {
+	type args struct {
+		root *TreeNode
+		p    *TreeNode
+		q    *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 5}
+	root1.Right = &TreeNode{Val: 1}
+	root1.Left.Left = &TreeNode{Val: 6}
+	root1.Left.Right = &TreeNode{Val: 2}
+	root1.Right.Left = &TreeNode{Val: 0}
+	root1.Right.Right = &TreeNode{Val: 8}
+	root1.Left.Right.Left = &TreeNode{Val: 7}
+	root1.Left.Right.Right = &TreeNode{Val: 4}
+	p1 := root1.Left
+	q1 := root1.Right
+
+	root2 := &TreeNode{Val: 3}
+	root2.Left = &TreeNode{Val: 5}
+	root2.Right = &TreeNode{Val: 1}
+	root2.Left.Left = &TreeNode{Val: 6}
+	root2.Left.Right = &TreeNode{Val: 2}
+	root2.Right.Left = &TreeNode{Val: 0}
+	root2.Right.Right = &TreeNode{Val: 8}
+	root2.Left.Right.Left = &TreeNode{Val: 7}
+	root2.Left.Right.Right = &TreeNode{Val: 4}
+	p2 := root2.Left
+	q2 := root2.Left.Right.Right
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, p1, q1}, root1},
+		{"test2", args{root2, p2, q2}, p2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := lowestCommonAncestor(tt.args.root, tt.args.p, tt.args.q); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("lowestCommonAncestor() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

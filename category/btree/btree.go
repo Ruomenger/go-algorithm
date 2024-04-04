@@ -644,3 +644,28 @@ func findMode(root *TreeNode) []int {
 	find(root)
 	return ret
 }
+
+// lowestCommonAncestor 236. 二叉树的最近公共祖先 medium
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root == p || root == q {
+		return root
+	}
+	if root.Left == nil {
+		return lowestCommonAncestor(root.Right, p, q)
+	}
+	if root.Right == nil {
+		return lowestCommonAncestor(root.Left, p, q)
+	}
+	leftRoot := lowestCommonAncestor(root.Left, p, q)
+	if leftRoot == nil {
+		return lowestCommonAncestor(root.Right, p, q)
+	}
+	rightRoot := lowestCommonAncestor(root.Right, p, q)
+	if rightRoot == nil {
+		return lowestCommonAncestor(root.Left, p, q)
+	}
+	return root
+}
