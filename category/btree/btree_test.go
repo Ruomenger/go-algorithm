@@ -693,3 +693,36 @@ func Test_lowestCommonAncestor2(t *testing.T) {
 		})
 	}
 }
+
+func Test_insertIntoBST(t *testing.T) {
+	type args struct {
+		root *TreeNode
+		val  int
+	}
+	root1 := &TreeNode{Val: 4}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Right = &TreeNode{Val: 7}
+	root1.Left.Left = &TreeNode{Val: 1}
+	root1.Left.Right = &TreeNode{Val: 3}
+
+	ans1 := &TreeNode{Val: 4}
+	ans1.Left = &TreeNode{Val: 2}
+	ans1.Right = &TreeNode{Val: 7}
+	ans1.Right.Left = &TreeNode{Val: 5}
+	ans1.Left.Left = &TreeNode{Val: 1}
+	ans1.Left.Right = &TreeNode{Val: 3}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, 5}, ans1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := insertIntoBST(tt.args.root, tt.args.val); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("insertIntoBST() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
