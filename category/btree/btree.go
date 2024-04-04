@@ -669,3 +669,28 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	}
 	return root
 }
+
+func getMinimumDifference(root *TreeNode) int {
+	minVal := math.MaxInt
+	min := func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+	var traversal func(root *TreeNode)
+	var prev *TreeNode
+	traversal = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		traversal(node.Left)
+		if prev != nil {
+			minVal = min(node.Val-prev.Val, minVal)
+		}
+		prev = node
+		traversal(node.Right)
+	}
+	traversal(root)
+	return minVal
+}

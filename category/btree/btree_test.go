@@ -607,3 +607,35 @@ func Test_lowestCommonAncestor(t *testing.T) {
 		})
 	}
 }
+
+func Test_getMinimumDifference(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 4}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Right = &TreeNode{Val: 6}
+	root1.Left.Left = &TreeNode{Val: 1}
+	root1.Left.Right = &TreeNode{Val: 3}
+
+	root2 := &TreeNode{Val: 1}
+	root2.Left = &TreeNode{Val: 0}
+	root2.Right = &TreeNode{Val: 48}
+	root2.Right.Left = &TreeNode{Val: 12}
+	root2.Right.Right = &TreeNode{Val: 49}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 1},
+		{"test2", args{root1}, 1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getMinimumDifference(tt.args.root); got != tt.want {
+				t.Errorf("getMinimumDifference() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
