@@ -694,3 +694,30 @@ func getMinimumDifference(root *TreeNode) int {
 	traversal(root)
 	return minVal
 }
+
+// lowestCommonAncestor2 235. 二叉搜索树的最近公共祖先 medium
+func lowestCommonAncestor2(root, p, q *TreeNode) *TreeNode {
+	if p.Val < q.Val {
+		return lowestCommonAncestorBST(root, p, q)
+	}
+	return lowestCommonAncestorBST(root, q, p)
+}
+
+func lowestCommonAncestorBST(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root == p || root == q {
+		return root
+	}
+	if p.Val < root.Val && q.Val < root.Val {
+		return lowestCommonAncestorBST(root.Left, p, q)
+	}
+	if p.Val > root.Val && q.Val > root.Val {
+		return lowestCommonAncestorBST(root.Right, p, q)
+	}
+	if p.Val < root.Val && q.Val > root.Val {
+		return root
+	}
+	return nil
+}
