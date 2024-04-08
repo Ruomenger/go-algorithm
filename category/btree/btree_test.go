@@ -759,3 +759,41 @@ func Test_deleteNode(t *testing.T) {
 		})
 	}
 }
+
+func Test_trimBST(t *testing.T) {
+	type args struct {
+		root *TreeNode
+		low  int
+		high int
+	}
+	root1 := &TreeNode{Val: 1}
+	root1.Left = &TreeNode{Val: 0}
+	root1.Right = &TreeNode{Val: 2}
+	want1 := &TreeNode{Val: 1}
+	want1.Right = &TreeNode{Val: 2}
+
+	root2 := &TreeNode{Val: 3}
+	root2.Left = &TreeNode{Val: 0}
+	root2.Right = &TreeNode{Val: 4}
+	root2.Left.Right = &TreeNode{Val: 2}
+	root2.Left.Right.Left = &TreeNode{Val: 1}
+	want2 := &TreeNode{Val: 3}
+	want2.Left = &TreeNode{Val: 2}
+	want2.Left.Left = &TreeNode{Val: 1}
+
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, 1, 2}, want1},
+		{"test2", args{root2, 1, 3}, want2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := trimBST(tt.args.root, tt.args.low, tt.args.high); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("trimBST() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
