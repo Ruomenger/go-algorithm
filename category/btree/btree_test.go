@@ -797,3 +797,27 @@ func Test_trimBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_sortedArrayToBST(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	want1 := &TreeNode{Val: 5}
+	want1.Left = &TreeNode{Val: 3}
+	want1.Right = &TreeNode{Val: 8}
+
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{[]int{3, 5, 8}}, want1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := sortedArrayToBST(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("sortedArrayToBST() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -779,3 +779,15 @@ func trimBST(root *TreeNode, low int, high int) *TreeNode {
 	root.Right = trimBST(root.Right, low, high)
 	return root
 }
+
+// sortedArrayToBST 108. 将有序数组转换为二叉搜索树 simple
+func sortedArrayToBST(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	mid := len(nums) / 2
+	node := &TreeNode{Val: nums[mid]}
+	node.Left = sortedArrayToBST(nums[0:mid])
+	node.Right = sortedArrayToBST(nums[mid+1:])
+	return node
+}
