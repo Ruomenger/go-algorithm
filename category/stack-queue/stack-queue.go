@@ -95,7 +95,6 @@ func (s *MyStack) Push(x int) {
 		s.queue = append(s.queue, s.queue[0])
 		s.queue = s.queue[1:]
 	}
-
 }
 
 func (s *MyStack) Pop() int {
@@ -155,7 +154,6 @@ func isValid(s string) bool {
 		default:
 			return false
 		}
-
 	}
 	return len(stack) == 0
 }
@@ -264,6 +262,7 @@ func (h IntHeap) Swap(i, j int) {
 func (h *IntHeap) Push(x interface{}) {
 	*h = append(*h, x.([2]int))
 }
+
 func (h *IntHeap) Pop() interface{} {
 	old := *h
 	n := len(old)
@@ -280,7 +279,7 @@ func topKFrequent(nums []int, k int) []int {
 	}
 	h := &IntHeap{}
 	heap.Init(h)
-	//所有元素入堆，堆的长度为k
+	// 所有元素入堆，堆的长度为k
 	for key, value := range numMap {
 		heap.Push(h, [2]int{key, value})
 		if h.Len() > k {

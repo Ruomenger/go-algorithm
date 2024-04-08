@@ -14,7 +14,8 @@ func TestPreorderTraversalRec(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Right = &TreeNode{Val: 2}
 	test1.root.Right.Left = &TreeNode{Val: 3}
 	test2 := args{}
@@ -23,7 +24,8 @@ func TestPreorderTraversalRec(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test4 := args{
 		&TreeNode{
 			Val: 3,
@@ -62,7 +64,8 @@ func TestInorderTraversal(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Right = &TreeNode{Val: 2}
 	test1.root.Right.Right = &TreeNode{Val: 3}
 	test2 := args{}
@@ -71,7 +74,8 @@ func TestInorderTraversal(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test4 := args{
 		&TreeNode{
 			Val: 3,
@@ -110,7 +114,8 @@ func TestPostorderTraversalRec(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Right = &TreeNode{Val: 2}
 	test1.root.Right.Right = &TreeNode{Val: 3}
 	test2 := args{}
@@ -119,7 +124,8 @@ func TestPostorderTraversalRec(t *testing.T) {
 			Val:   1,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test4 := args{
 		&TreeNode{
 			Val: 3,
@@ -158,7 +164,8 @@ func TestLevelOrder(t *testing.T) {
 			Val:   3,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Left = &TreeNode{Val: 9}
 	test1.root.Right = &TreeNode{Val: 20}
 	test1.root.Right.Left = &TreeNode{Val: 15}
@@ -196,7 +203,8 @@ func TestLevelOrderBottom(t *testing.T) {
 			Val:   3,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Left = &TreeNode{Val: 9}
 	test1.root.Right = &TreeNode{Val: 20}
 	test1.root.Right.Left = &TreeNode{Val: 15}
@@ -234,7 +242,8 @@ func TestRightSideView(t *testing.T) {
 			Val:   3,
 			Left:  nil,
 			Right: nil,
-		}}
+		},
+	}
 	test1.root.Left = &TreeNode{Val: 9}
 	test1.root.Right = &TreeNode{Val: 20}
 	test1.root.Right.Left = &TreeNode{Val: 15}
@@ -270,7 +279,8 @@ func TestIsSymmetric(t *testing.T) {
 	test1 := args{
 		&TreeNode{
 			Val: 1,
-		}}
+		},
+	}
 	test1.root.Left = &TreeNode{Val: 2}
 	test1.root.Right = &TreeNode{Val: 2}
 	test1.root.Left.Left = &TreeNode{Val: 3}
