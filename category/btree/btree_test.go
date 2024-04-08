@@ -821,3 +821,42 @@ func Test_sortedArrayToBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_convertBST(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 4}
+	root1.Left = &TreeNode{Val: 1}
+	root1.Right = &TreeNode{Val: 6}
+	root1.Left.Left = &TreeNode{Val: 0}
+	root1.Left.Right = &TreeNode{Val: 2}
+	root1.Left.Right.Right = &TreeNode{Val: 3}
+	root1.Right.Left = &TreeNode{Val: 5}
+	root1.Right.Right = &TreeNode{Val: 7}
+	root1.Right.Right.Right = &TreeNode{Val: 8}
+
+	want1 := &TreeNode{Val: 30}
+	want1.Left = &TreeNode{Val: 36}
+	want1.Right = &TreeNode{Val: 21}
+	want1.Left.Left = &TreeNode{Val: 36}
+	want1.Left.Right = &TreeNode{Val: 35}
+	want1.Left.Right.Right = &TreeNode{Val: 33}
+	want1.Right.Left = &TreeNode{Val: 26}
+	want1.Right.Right = &TreeNode{Val: 15}
+	want1.Right.Right.Right = &TreeNode{Val: 8}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1}, want1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convertBST(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convertBST() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

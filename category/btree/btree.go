@@ -791,3 +791,17 @@ func sortedArrayToBST(nums []int) *TreeNode {
 	node.Right = sortedArrayToBST(nums[mid+1:])
 	return node
 }
+
+// convertBST 538. 把二叉搜索树转换为累加树 meduim
+func convertBST(root *TreeNode) *TreeNode {
+	var build func(node *TreeNode, sum int) int
+	build = func(node *TreeNode, sum int) int {
+		if node == nil {
+			return sum
+		}
+		node.Val += build(node.Right, sum)
+		return build(node.Left, node.Val)
+	}
+	build(root, 0)
+	return root
+}
