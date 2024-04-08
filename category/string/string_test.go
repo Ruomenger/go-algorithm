@@ -20,7 +20,6 @@ func TestReverseString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			if reverseString(tt.args.s); !reflect.DeepEqual(tt.args.s, tt.want) {
 				t.Errorf("fourSum() = %v, want %v", tt.args.s, tt.want)
 			}

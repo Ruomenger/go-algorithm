@@ -88,8 +88,8 @@ func Test_removeNthFromEnd(t *testing.T) {
 	//	Next: nil,
 	//}
 	head1.Next = head2
-	//head2.Next = head3
-	//head3.Next = head4
+	// head2.Next = head3
+	// head3.Next = head4
 	tests := []struct {
 		name string
 		args args
