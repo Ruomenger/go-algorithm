@@ -726,3 +726,36 @@ func Test_insertIntoBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_deleteNode(t *testing.T) {
+	type args struct {
+		root *TreeNode
+		key  int
+	}
+	root1 := &TreeNode{Val: 5}
+	root1.Left = &TreeNode{Val: 3}
+	root1.Right = &TreeNode{Val: 6}
+	root1.Left.Left = &TreeNode{Val: 2}
+	root1.Left.Right = &TreeNode{Val: 4}
+	root1.Right.Right = &TreeNode{Val: 7}
+
+	want1 := &TreeNode{Val: 5}
+	want1.Left = &TreeNode{Val: 4}
+	want1.Right = &TreeNode{Val: 6}
+	want1.Left.Left = &TreeNode{Val: 2}
+	want1.Right.Right = &TreeNode{Val: 7}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, 3}, want1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := deleteNode(tt.args.root, tt.args.key); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("deleteNode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

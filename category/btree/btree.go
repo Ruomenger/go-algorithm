@@ -734,3 +734,32 @@ func insertIntoBST(root *TreeNode, val int) *TreeNode {
 	root.Right = insertIntoBST(root.Right, val)
 	return root
 }
+
+// deleteNode 450. 删除二叉搜索树中的节点 medium
+func deleteNode(root *TreeNode, key int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root.Val > key {
+		root.Left = deleteNode(root.Left, key)
+		return root
+	} else if root.Val < key {
+		root.Right = deleteNode(root.Right, key)
+		return root
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return nil
+	}
+	if root.Left == nil {
+		return root.Right
+	}
+	if root.Right == nil {
+		return root.Left
+	}
+	node := root.Right
+	for ; node.Left != nil; node = node.Left {
+	}
+	node.Left = root.Left
+	return root.Right
+}
