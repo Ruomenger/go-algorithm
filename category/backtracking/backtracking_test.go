@@ -26,3 +26,27 @@ func TestCombine(t *testing.T) {
 		})
 	}
 }
+
+func TestCombinationSum3(t *testing.T) {
+	type args struct {
+		k int
+		n int
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]int
+	}{
+		{"3-7", args{3, 7}, [][]int{{1, 2, 4}}},
+		{"3-9", args{3, 9}, [][]int{{1, 2, 6}, {1, 3, 5}, {2, 3, 4}}},
+		{"4-1", args{4, 1}, [][]int{}},
+		{"9-45", args{9, 45}, [][]int{{1, 2, 3, 4, 5, 6, 7, 8, 9}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := combinationSum3(tt.args.k, tt.args.n); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("combinationSum3() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
