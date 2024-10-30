@@ -47,3 +47,32 @@ func combinationSum3(k int, n int) [][]int {
 	dfs(1, n)
 	return ans
 }
+
+// letterCombinations 17. 电话号码的字母组合 https://leetcode.cn/problems/letter-combinations-of-a-phone-number/
+func letterCombinations(digits string) []string {
+	ans := make([]string, 0)
+	digit2letter := make(map[byte]string)
+	digit2letter['2'] = "abc"
+	digit2letter['3'] = "def"
+	digit2letter['4'] = "ghi"
+	digit2letter['5'] = "jkl"
+	digit2letter['6'] = "mno"
+	digit2letter['7'] = "pqrs"
+	digit2letter['8'] = "tuv"
+	digit2letter['9'] = "wxyz"
+	var dfs func(idx int, str string)
+	dfs = func(idx int, str string) {
+		if idx == len(digits) {
+			if str != "" {
+				ans = append(ans, str)
+			}
+			return
+		}
+		letters := digit2letter[digits[idx]]
+		for _, ch := range letters {
+			dfs(idx+1, str+string(ch))
+		}
+	}
+	dfs(0, "")
+	return ans
+}
