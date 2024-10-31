@@ -1,5 +1,7 @@
 package backtracking
 
+import "slices"
+
 // combine 77. 组合 https://leetcode.cn/problems/combinations/
 func combine(n int, k int) [][]int {
 	ans := make([][]int, 0)
@@ -75,4 +77,32 @@ func letterCombinations(digits string) []string {
 	}
 	dfs(0, "")
 	return ans
+}
+
+// combinationSum 39. 组合总和 https://leetcode.cn/problems/combination-sum/
+func combinationSum(candidates []int, target int) [][]int {
+	res := make([][]int, 0)
+	nums := make([]int, 0)
+	slices.Sort(candidates)
+	var backtrace func(int, int)
+	backtrace = func(idx, sum int) {
+		if idx >= len(candidates) || sum < 0 {
+			return
+		}
+
+		if sum == 0 {
+			res = append(res, slices.Clone(nums))
+			return
+		}
+		for i := idx; i < len(candidates); i++ {
+			if sum < candidates[i] {
+				return
+			}
+			nums = append(nums, candidates[i])
+			backtrace(i, sum-candidates[i])
+			nums = nums[:len(nums)-1]
+		}
+	}
+	backtrace(0, target)
+	return res
 }
