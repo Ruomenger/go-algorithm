@@ -95,3 +95,25 @@ func TestCombinationSum(t *testing.T) {
 		})
 	}
 }
+
+func TestCombinationSum2(t *testing.T) {
+	type args struct {
+		candidates []int
+		target     int
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]int
+	}{
+		{"test1", args{[]int{1, 1, 2, 5, 6, 7, 10}, 8}, [][]int{{1, 1, 6}, {1, 2, 5}, {1, 7}, {2, 6}}},
+		{"test2", args{[]int{1, 2, 2, 2, 5}, 5}, [][]int{{1, 2, 2}, {5}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := combinationSum2(tt.args.candidates, tt.args.target); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("combinationSum2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

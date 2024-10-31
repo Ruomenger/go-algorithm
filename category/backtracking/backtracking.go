@@ -106,3 +106,32 @@ func combinationSum(candidates []int, target int) [][]int {
 	backtrace(0, target)
 	return res
 }
+
+// combinationSum2 40. 组合总和 II https://leetcode.cn/problems/combination-sum-ii/
+func combinationSum2(candidates []int, target int) [][]int {
+	res := make([][]int, 0)
+	nums := make([]int, 0)
+	slices.Sort(candidates)
+	var backtrace func(int, int)
+	backtrace = func(idx, sum int) {
+		if idx > len(candidates) || sum < 0 {
+			return
+		}
+
+		if sum == 0 {
+			res = append(res, slices.Clone(nums))
+			return
+		}
+		for i := idx; i < len(candidates); i++ {
+			// 同一层的选择中，避免后面的数字跟前面的重复
+			if i > idx && candidates[i] == candidates[i-1] {
+				continue
+			}
+			nums = append(nums, candidates[i])
+			backtrace(i+1, sum-candidates[i])
+			nums = nums[:len(nums)-1]
+		}
+	}
+	backtrace(0, target)
+	return res
+}
