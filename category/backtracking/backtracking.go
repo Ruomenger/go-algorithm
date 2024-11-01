@@ -1,6 +1,9 @@
 package backtracking
 
-import "slices"
+import (
+	"slices"
+	"strings"
+)
 
 // combine 77. 组合 https://leetcode.cn/problems/combinations/
 func combine(n int, k int) [][]int {
@@ -164,4 +167,48 @@ func partition(str string) [][]string {
 	}
 	dfs(0)
 	return ans
+}
+
+// restoreIpAddresses 93. 复原 IP 地址 https://leetcode.cn/problems/restore-ip-addresses/
+func restoreIpAddresses(s string) []string {
+	addresses := make([]string, 0)
+	address := make([]string, 0, 4)
+	var dfs func(int)
+	dfs = func(start int) {
+		if start == len(s) && len(address) == 4 {
+			addresses = append(addresses, strings.Join(address, "."))
+			return
+		}
+		if len(address) > 4 || (len(address) == 4 && start < len(s)) {
+			return
+		}
+
+		for i := start; i < len(s); i++ {
+			if s[i] == '0' {
+				if i == start {
+					address = append(address, "0")
+					dfs(i + 1)
+					address = address[:len(address)-1]
+					return
+				} else {
+					if i-start+1 > 3 {
+						continue
+					} else if i-start+1 == 3 && s[start] >= '3' {
+						continue
+					}
+					address = append(address, string(s[start:i+1]))
+					dfs(i + 1)
+					address = address[:len(address)-1]
+				}
+				continue
+			}
+			if i-start+1 < 3 || ((i-start+1) == 3 && string(s[start:i+1]) <= "255") {
+				address = append(address, string(s[start:i+1]))
+				dfs(i + 1)
+				address = address[:len(address)-1]
+			}
+		}
+	}
+	dfs(0)
+	return addresses
 }

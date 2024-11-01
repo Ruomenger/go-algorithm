@@ -120,15 +120,7 @@ func TestCombinationSum2(t *testing.T) {
 }
 
 func TestMy(t *testing.T) {
-	isPalindrome := func(str string) bool {
-		for i := 0; i < len(str)/2; i++ {
-			if str[i] != str[len(str)-1-i] {
-				return false
-			}
-		}
-		return true
-	}
-	fmt.Println(isPalindrome("aba"))
+	fmt.Println("255" < "254")
 }
 
 func TestPartition(t *testing.T) {
@@ -147,6 +139,29 @@ func TestPartition(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := partition(tt.args.str); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("partition() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRestoreIpAddresses(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{"test1", args{"25525511135"}, []string{"255.255.11.135", "255.255.111.35"}},
+		{"test2", args{"0000"}, []string{"0.0.0.0"}},
+		{"test3", args{"101023"}, []string{"1.0.10.23", "1.0.102.3", "10.1.0.23", "10.10.2.3", "101.0.2.3"}},
+		{"test4", args{"172162541"}, []string{"17.216.25.41", "17.216.254.1", "172.16.25.41", "172.16.254.1", "172.162.5.41", "172.162.54.1"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := restoreIpAddresses(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("restoreIpAddresses() = %v, want %v", got, tt.want)
 			}
 		})
 	}
