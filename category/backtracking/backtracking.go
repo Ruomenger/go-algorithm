@@ -135,3 +135,33 @@ func combinationSum2(candidates []int, target int) [][]int {
 	backtrace(0, target)
 	return res
 }
+
+// partition 131. 分割回文串 https://leetcode.cn/problems/palindrome-partitioning/
+func partition(str string) [][]string {
+	isPalindrome := func(str string) bool {
+		for i := 0; i < len(str)/2; i++ {
+			if str[i] != str[len(str)-1-i] {
+				return false
+			}
+		}
+		return true
+	}
+	ans := make([][]string, 0)
+	strs := make([]string, 0)
+	var dfs func(int)
+	dfs = func(start int) {
+		if start == len(str) {
+			ans = append(ans, slices.Clone(strs))
+		}
+		for i := start; i < len(str); i++ {
+			s := str[start : i+1]
+			if isPalindrome(s) {
+				strs = append(strs, s)
+				dfs(i + 1)
+				strs = strs[:len(strs)-1]
+			}
+		}
+	}
+	dfs(0)
+	return ans
+}

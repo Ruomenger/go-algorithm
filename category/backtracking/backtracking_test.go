@@ -1,6 +1,7 @@
 package backtracking
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -113,6 +114,39 @@ func TestCombinationSum2(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := combinationSum2(tt.args.candidates, tt.args.target); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("combinationSum2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMy(t *testing.T) {
+	isPalindrome := func(str string) bool {
+		for i := 0; i < len(str)/2; i++ {
+			if str[i] != str[len(str)-1-i] {
+				return false
+			}
+		}
+		return true
+	}
+	fmt.Println(isPalindrome("aba"))
+}
+
+func TestPartition(t *testing.T) {
+	type args struct {
+		str string
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]string
+	}{
+		{"test1", args{"aab"}, [][]string{{"a", "a", "b"}, {"aa", "b"}}},
+		{"test2", args{"a"}, [][]string{{"a"}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := partition(tt.args.str); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("partition() = %v, want %v", got, tt.want)
 			}
 		})
 	}
