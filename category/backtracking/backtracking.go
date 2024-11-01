@@ -212,3 +212,23 @@ func restoreIpAddresses(s string) []string {
 	dfs(0)
 	return addresses
 }
+
+// subsets 78. 子集 https://leetcode.cn/problems/subsets/
+func subsets(nums []int) [][]int {
+	ans := make([][]int, 0)
+	path := make([]int, 0)
+	var dfs func(int)
+	dfs = func(idx int) {
+		ans = append(ans, slices.Clone(path))
+		if idx == len(nums) {
+			return
+		}
+		for i := idx; i < len(nums); i++ {
+			path = append(path, nums[i])
+			dfs(i + 1)
+			path = path[:len(path)-1]
+		}
+	}
+	dfs(0)
+	return ans
+}
