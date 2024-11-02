@@ -285,3 +285,30 @@ func findSubsequences(nums []int) [][]int {
 	dfs(0)
 	return ans
 }
+
+// permute 46. 全排列 https://leetcode.cn/problems/permutations/
+func permute(nums []int) [][]int {
+	ans := make([][]int, 0)
+	path := make([]int, 0, len(nums))
+	used := make(map[int]bool, len(nums))
+	var dfs func()
+	dfs = func() {
+		if len(path) == len(nums) {
+			ans = append(ans, slices.Clone(path))
+			return
+		}
+
+		for i := 0; i < len(nums); i++ {
+			if used[nums[i]] {
+				continue
+			}
+			used[nums[i]] = true
+			path = append(path, nums[i])
+			dfs()
+			path = path[:len(path)-1]
+			used[nums[i]] = false
+		}
+	}
+	dfs()
+	return ans
+}
