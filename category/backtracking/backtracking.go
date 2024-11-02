@@ -232,3 +232,27 @@ func subsets(nums []int) [][]int {
 	dfs(0)
 	return ans
 }
+
+// subsetsWithDup 90. 子集 II https://leetcode.cn/problems/subsets-ii/
+func subsetsWithDup(nums []int) [][]int {
+	slices.Sort(nums)
+	ans := make([][]int, 0)
+	path := make([]int, 0)
+	var dfs func(int)
+	dfs = func(start int) {
+		ans = append(ans, slices.Clone(path))
+		if start == len(nums) {
+			return
+		}
+		for i := start; i < len(nums); i++ {
+			if i > start && nums[i] == nums[i-1] {
+				continue
+			}
+			path = append(path, nums[i])
+			dfs(i + 1)
+			path = path[:len(path)-1]
+		}
+	}
+	dfs(0)
+	return ans
+}
