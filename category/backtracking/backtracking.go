@@ -256,3 +256,32 @@ func subsetsWithDup(nums []int) [][]int {
 	dfs(0)
 	return ans
 }
+
+// findSubsequences 491. 非递减子序列 https://leetcode.cn/problems/non-decreasing-subsequences/
+func findSubsequences(nums []int) [][]int {
+	ans := make([][]int, 0)
+	path := make([]int, 0)
+	var dfs func(int)
+	dfs = func(start int) {
+		if len(path) >= 2 {
+			ans = append(ans, slices.Clone(path))
+		}
+		if start == len(nums) {
+			return
+		}
+		used := make(map[int]bool, len(nums))
+		for i := start; i < len(nums); i++ {
+			if used[nums[i]] {
+				continue
+			}
+			if len(path) == 0 || path[len(path)-1] <= nums[i] {
+				path = append(path, nums[i])
+				used[nums[i]] = true
+				dfs(i + 1)
+				path = path[:len(path)-1]
+			}
+		}
+	}
+	dfs(0)
+	return ans
+}
