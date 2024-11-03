@@ -393,3 +393,49 @@ func solveNQueens(n int) [][]string {
 	backtrack(0)
 	return ans
 }
+
+// solveSudoku 37. 解数独 https://leetcode.cn/problems/sudoku-solver/
+func solveSudoku(board [][]byte) {
+	isValid := func(row, col int, num byte) bool {
+		for i := 0; i < 9; i++ {
+			if board[row][i] == num {
+				return false
+			}
+			if board[i][col] == num {
+				return false
+			}
+		}
+		startRow := (row / 3) * 3
+		startCol := (col / 3) * 3
+		for i := startRow; i < startRow+3; i++ {
+			for j := startCol; j < startCol+3; j++ {
+				if board[i][j] == num {
+					return false
+				}
+			}
+		}
+		return true
+	}
+
+	var backtrace func(int, int) bool
+	backtrace = func(x, y int) bool {
+		if x == 9 {
+			return true
+		}
+		if board[x][y] != '.' {
+			return backtrace(x+(y+1)/9, (y+1)%9)
+		}
+		for i := byte('1'); i <= '9'; i++ {
+			// 先检查再放数就不用排除同位置了
+			if isValid(x, y, i) {
+				board[x][y] = i
+				if backtrace(x+(y+1)/9, (y+1)%9) {
+					return true
+				}
+				board[x][y] = '.'
+			}
+		}
+		return false
+	}
+	backtrace(0, 0)
+}
