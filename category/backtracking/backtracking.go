@@ -312,3 +312,33 @@ func permute(nums []int) [][]int {
 	dfs()
 	return ans
 }
+
+// permuteUnique 47. 全排列 II https://leetcode.cn/problems/permutations-ii/
+func permuteUnique(nums []int) [][]int {
+	ans := make([][]int, 0)
+	path := make([]int, 0, len(nums))
+	used := make(map[int]bool, len(nums))
+	slices.Sort(nums)
+	var dfs func()
+	dfs = func() {
+		if len(path) == len(nums) {
+			ans = append(ans, slices.Clone(path))
+			return
+		}
+
+		for i := 0; i < len(nums); i++ {
+			if i > 0 && !used[i-1] && nums[i] == nums[i-1] {
+				continue
+			}
+			if !used[i] {
+				used[i] = true
+				path = append(path, nums[i])
+				dfs()
+				path = path[:len(path)-1]
+				used[i] = false
+			}
+		}
+	}
+	dfs()
+	return ans
+}
