@@ -139,3 +139,27 @@ func canCompleteCircuit(gas []int, cost []int) int {
 	}
 	return start
 }
+
+// candy hard 135. 分发糖果 https://leetcode.cn/problems/candy/
+func candy(ratings []int) int {
+	ans := make([]int, len(ratings))
+	for i := 0; i < len(ans); i++ {
+		ans[i] = 1
+	}
+	for i := 1; i < len(ratings); i++ {
+		if ratings[i] > ratings[i-1] {
+			ans[i] = ans[i-1] + 1
+		}
+	}
+	for i := len(ratings) - 2; i >= 0; i-- {
+		if ratings[i] > ratings[i+1] {
+			ans[i] = max(ans[i], ans[i+1]+1)
+		}
+	}
+
+	sum := 0
+	for i := 0; i < len(ans); i++ {
+		sum += ans[i]
+	}
+	return sum
+}
