@@ -100,3 +100,25 @@ func jump(nums []int) int {
 	}
 	return ans
 }
+
+// largestSumAfterKNegations 1005. K 次取反后最大化的数组和
+func largestSumAfterKNegations(nums []int, k int) int {
+	slices.Sort(nums)
+
+	for i := 0; k > 0 && i < len(nums); i++ {
+		if nums[i] < 0 {
+			nums[i] = -nums[i]
+			k--
+		}
+	}
+	sum := 0
+	minNum := math.MaxInt
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+		minNum = min(nums[i], minNum)
+	}
+	if k%2 != 0 {
+		sum -= (2 * minNum)
+	}
+	return sum
+}
