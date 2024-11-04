@@ -81,3 +81,22 @@ func canJump(nums []int) bool {
 	}
 	return false
 }
+
+// jump 45. 跳跃游戏 II https://leetcode.cn/problems/jump-game-ii/
+func jump(nums []int) int {
+	if (len(nums)) == 1 {
+		return 0
+	}
+	cur, next, ans := 0, 0, 0
+	for i := 0; i < len(nums)-1; i++ {
+		next = max(i+nums[i], next)
+		if i == cur {
+			cur = next
+			ans++
+			if next >= len(nums)-1 {
+				return ans
+			}
+		}
+	}
+	return ans
+}
