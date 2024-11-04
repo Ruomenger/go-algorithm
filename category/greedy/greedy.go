@@ -163,3 +163,35 @@ func candy(ratings []int) int {
 	}
 	return sum
 }
+
+// lemonadeChange 860. 柠檬水找零 https://leetcode.cn/problems/lemonade-change/
+func lemonadeChange(bills []int) bool {
+	num5, num10 := 0, 0
+	for i := 0; i < len(bills); i++ {
+		if bills[i] == 5 {
+			num5++
+			continue
+		}
+		if bills[i] == 10 {
+			num5 -= 1
+			if num5 < 0 {
+				return false
+			}
+			num10++
+		} else if bills[i] == 20 {
+			if num10 > 0 {
+				num10--
+				num5 -= 1
+				if num5 < 0 {
+					return false
+				}
+			} else {
+				num5 -= 3
+				if num5 < 0 {
+					return false
+				}
+			}
+		}
+	}
+	return true
+}

@@ -201,3 +201,25 @@ func Test_candy(t *testing.T) {
 		})
 	}
 }
+
+func Test_lemonadeChange(t *testing.T) {
+	type args struct {
+		bills []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{[]int{5, 5, 5, 10, 20}}, true},
+		{"test2", args{[]int{5, 5, 10, 10, 20}}, false},
+		{"test3", args{[]int{5, 5, 5, 5, 10, 5, 10, 10, 10, 20}}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := lemonadeChange(tt.args.bills); got != tt.want {
+				t.Errorf("lemonadeChange() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
