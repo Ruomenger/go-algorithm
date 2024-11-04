@@ -17,3 +17,25 @@ func findContentChildren(g []int, s []int) int {
 	}
 	return cnt
 }
+
+// wiggleMaxLength 376. 摆动序列 https://leetcode.cn/problems/wiggle-subsequence/
+func wiggleMaxLength(nums []int) int {
+	if len(nums) <= 1 {
+		return len(nums)
+	}
+	result := 1
+	up := true
+	down := true
+	for i := 0; i < len(nums)-1; i++ {
+		if up && nums[i+1] > nums[i] {
+			up = false
+			down = true
+			result++
+		} else if down && nums[i+1] < nums[i] {
+			down = false
+			up = true
+			result++
+		}
+	}
+	return result
+}
