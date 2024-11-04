@@ -66,3 +66,18 @@ func maxProfit(prices []int) int {
 	}
 	return profit
 }
+
+// canJump 55. 跳跃游戏 https://leetcode.cn/problems/jump-game/
+func canJump(nums []int) bool {
+	if len(nums) == 1 {
+		return true
+	}
+	maxIdx := nums[0]
+	for i := 0; i <= maxIdx; i++ {
+		maxIdx = max(i+nums[i], maxIdx)
+		if maxIdx >= len(nums)-1 {
+			return true
+		}
+	}
+	return false
+}

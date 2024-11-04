@@ -92,3 +92,25 @@ func TestMaxProfit(t *testing.T) {
 		})
 	}
 }
+
+func TestCanJump(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{[]int{2, 3, 1, 1, 4}}, true},
+		{"test1", args{[]int{3, 2, 1, 0, 4}}, false},
+		{"test1", args{[]int{1, 2}}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := canJump(tt.args.nums); got != tt.want {
+				t.Errorf("canJump() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
