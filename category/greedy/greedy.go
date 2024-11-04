@@ -1,6 +1,9 @@
 package greedy
 
-import "slices"
+import (
+	"math"
+	"slices"
+)
 
 // findContentChildren 455. 分发饼干 https://leetcode.cn/problems/assign-cookies/
 func findContentChildren(g []int, s []int) int {
@@ -38,4 +41,19 @@ func wiggleMaxLength(nums []int) int {
 		}
 	}
 	return result
+}
+
+// maxSubArray 53. 最大子数组和 https://leetcode.cn/problems/maximum-subarray/
+// 可以使用：动态规划、贪心、分治线段树
+func maxSubArray(nums []int) int {
+	maxSum := math.MinInt
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+		maxSum = max(sum, maxSum)
+		if sum < 0 {
+			sum = 0
+		}
+	}
+	return maxSum
 }
