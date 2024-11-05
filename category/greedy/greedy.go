@@ -4,6 +4,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strconv"
 )
 
 // findContentChildren 455. 分发饼干 https://leetcode.cn/problems/assign-cookies/
@@ -287,4 +288,23 @@ func merge(intervals [][]int) [][]int {
 	}
 	ans = append(ans, []int{left, right})
 	return ans
+}
+
+// monotoneIncreasingDigits 738. 单调递增的数字 https://leetcode.cn/problems/monotone-increasing-digits/description/
+func monotoneIncreasingDigits(n int) int {
+	if n < 10 {
+		return n
+	}
+	str := strconv.Itoa(n)
+	ss := []byte(str)
+	for i := len(ss) - 1; i > 0; i-- {
+		if ss[i-1] > ss[i] {
+			ss[i-1] -= 1
+			for j := i; j < len(ss); j++ {
+				ss[j] = '9'
+			}
+		}
+	}
+	res, _ := strconv.Atoi(string(ss))
+	return res
 }
