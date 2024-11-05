@@ -267,3 +267,24 @@ func partitionLabels(s string) []int {
 	}
 	return ans
 }
+
+// merge 56. 合并区间 https://leetcode.cn/problems/merge-intervals/description/
+func merge(intervals [][]int) [][]int {
+	ans := make([][]int, 0)
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	left := intervals[0][0]
+	right := intervals[0][1]
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0] <= right {
+			right = max(intervals[i][1], right)
+		} else {
+			ans = append(ans, []int{left, right})
+			left = intervals[i][0]
+			right = intervals[i][1]
+		}
+	}
+	ans = append(ans, []int{left, right})
+	return ans
+}
