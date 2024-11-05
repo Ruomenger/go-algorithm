@@ -211,3 +211,19 @@ func reconstructQueue(people [][]int) [][]int {
 	}
 	return people
 }
+
+// findMinArrowShots 452. 用最少数量的箭引爆气球 https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/
+func findMinArrowShots(points [][]int) int {
+	res := 1
+	sort.Slice(points, func(i, j int) bool {
+		return points[i][0] < points[j][0]
+	})
+	for i := 1; i < len(points); i++ {
+		if points[i-1][1] < points[i][0] {
+			res++
+		} else {
+			points[i][1] = min(points[i][1], points[i-1][1])
+		}
+	}
+	return res
+}
