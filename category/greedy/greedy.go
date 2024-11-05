@@ -242,3 +242,28 @@ func eraseOverlapIntervals(intervals [][]int) int {
 	}
 	return ans
 }
+
+// partitionLabels 763. 划分字母区间 https://leetcode.cn/problems/partition-labels/
+func partitionLabels(s string) []int {
+	ans := make([]int, 0)
+	posMap := make(map[byte]int, 0)
+	for i := 0; i < len(s); i++ {
+		posMap[s[i]] = i
+	}
+	left := 0
+	right := posMap[s[0]]
+	for i := left; i <= right; i++ {
+		if i >= len(s) {
+			ans = append(ans, right-left+1)
+			break
+		}
+		if i > right {
+			ans = append(ans, right-left+1)
+			left = i
+			right = posMap[s[i]]
+			continue
+		}
+		right = max(right, posMap[s[i]])
+	}
+	return ans
+}
