@@ -98,3 +98,15 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 	}
 	return paths[m-1][n-1]
 }
+
+// integerBreak 343. 整数拆分 https://leetcode.cn/problems/integer-break/description/
+func integerBreak(n int) int {
+	dp := make([]int, n+1)
+	dp[2] = 1
+	for i := 3; i <= n; i++ {
+		for j := 2; j < i; j++ {
+			dp[i] = max(dp[i], max((i-j)*j, dp[i-j]*j))
+		}
+	}
+	return dp[n]
+}
