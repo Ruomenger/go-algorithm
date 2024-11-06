@@ -308,3 +308,41 @@ func monotoneIncreasingDigits(n int) int {
 	res, _ := strconv.Atoi(string(ss))
 	return res
 }
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+// minCameraCover 968. 监控二叉树 https://leetcode.cn/problems/binary-tree-cameras/description/
+func minCameraCover(root *TreeNode) int {
+	result := 0
+	var traversal func(node *TreeNode) int
+	// 0：节点无覆盖
+	// 1：节点有摄像
+	// 2：节点有覆盖
+	traversal = func(node *TreeNode) int {
+		if node == nil {
+			return 2
+		}
+		left := traversal(node.Left)
+		right := traversal(node.Right)
+		if left == 2 && right == 2 {
+			return 0
+		}
+		if left == 0 || right == 0 {
+			result++
+			return 1
+		}
+
+		if left == 1 || right == 1 {
+			return 2
+		}
+		return 0
+	}
+	if traversal(root) == 0 {
+		result++
+	}
+	return result
+}

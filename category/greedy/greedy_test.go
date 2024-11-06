@@ -353,3 +353,34 @@ func Test_monotoneIncreasingDigits(t *testing.T) {
 		})
 	}
 }
+
+func Test_minCameraCover(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{}
+	root1.Left = &TreeNode{}
+	root1.Left.Left = &TreeNode{}
+	root1.Left.Right = &TreeNode{}
+
+	root2 := &TreeNode{}
+	root2.Left = &TreeNode{}
+	root2.Left.Left = &TreeNode{}
+	root2.Left.Left.Left = &TreeNode{}
+	root2.Left.Left.Left.Right = &TreeNode{}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 1},
+		{"test2", args{root2}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minCameraCover(tt.args.root); got != tt.want {
+				t.Errorf("minCameraCover() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
