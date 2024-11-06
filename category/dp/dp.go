@@ -65,3 +65,36 @@ func uniquePaths(m int, n int) int {
 	}
 	return paths[m-1][n-1]
 }
+
+// uniquePathsWithObstacles 63. 不同路径 II https://leetcode.cn/problems/unique-paths-ii/description/
+func uniquePathsWithObstacles(obstacleGrid [][]int) int {
+	m := len(obstacleGrid)
+	n := len(obstacleGrid[0])
+	if obstacleGrid[0][0] == 1 || obstacleGrid[m-1][n-1] == 1 {
+		return 0
+	}
+	paths := make([][]int, m)
+	for i := 0; i < m; i++ {
+		paths[i] = make([]int, n)
+	}
+	for i := 0; i < m; i++ {
+		if obstacleGrid[i][0] == 1 {
+			break
+		}
+		paths[i][0] = 1
+	}
+	for i := 0; i < n; i++ {
+		if obstacleGrid[0][i] == 1 {
+			break
+		}
+		paths[0][i] = 1
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			if obstacleGrid[i][j] == 0 {
+				paths[i][j] = paths[i-1][j] + paths[i][j-1]
+			}
+		}
+	}
+	return paths[m-1][n-1]
+}
