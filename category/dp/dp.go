@@ -31,3 +31,16 @@ func climbStairs(n int) int {
 	}
 	return ans
 }
+
+// minCostClimbingStairs 746. 使用最小花费爬楼梯 https://leetcode.cn/problems/min-cost-climbing-stairs/description/
+func minCostClimbingStairs(cost []int) int {
+	totalCost := 0
+	cost1 := 0
+	cost2 := 0
+	for i := 2; i <= len(cost); i++ {
+		totalCost = min(cost2+cost[i-1], cost1+cost[i-2])
+		cost1 = cost2
+		cost2 = totalCost
+	}
+	return totalCost
+}
