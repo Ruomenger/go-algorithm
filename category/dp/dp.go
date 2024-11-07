@@ -158,3 +158,22 @@ func canPartition(nums []int) bool {
 
 	return dp[len(nums)-1][totalSum] == totalSum
 }
+
+// lastStoneWeightII 1049. 最后一块石头的重量 II https://leetcode.cn/problems/last-stone-weight-ii/description/
+func lastStoneWeightII(stones []int) int {
+	if len(stones) <= 1 {
+		return stones[0]
+	}
+	totalSum := 0
+	for i := 0; i < len(stones); i++ {
+		totalSum += stones[i]
+	}
+	sum := totalSum / 2
+	dp := make([]int, sum+1)
+	for i := 0; i < len(stones); i++ {
+		for j := sum; j >= stones[i]; j-- {
+			dp[j] = max(dp[j], dp[j-stones[i]]+stones[i])
+		}
+	}
+	return totalSum - dp[sum] - dp[sum]
+}
