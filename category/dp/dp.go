@@ -124,3 +124,37 @@ func numTrees(n int) int {
 	}
 	return dp[n]
 }
+
+// canPartition 416. 分割等和子集 https://leetcode.cn/problems/partition-equal-subset-sum/description/
+func canPartition(nums []int) bool {
+	if len(nums) <= 1 {
+		return false
+	}
+	totalSum := 0
+	for i := 0; i < len(nums); i++ {
+		totalSum += nums[i]
+	}
+	if totalSum%2 == 1 {
+		return false
+	}
+	totalSum /= 2
+	dp := make([][]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		dp[i] = make([]int, totalSum+1)
+	}
+
+	for i := nums[0]; i <= totalSum; i++ {
+		dp[0][i] = nums[0]
+	}
+	for i := 1; i < len(nums); i++ {
+		for j := 1; j <= totalSum; j++ {
+			if j < nums[i] {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = max(dp[i-1][j], dp[i-1][j-nums[i]]+nums[i])
+			}
+		}
+	}
+
+	return dp[len(nums)-1][totalSum] == totalSum
+}
