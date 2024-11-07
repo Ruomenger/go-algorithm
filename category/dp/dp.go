@@ -221,3 +221,28 @@ func findTargetSumWays(nums []int, target int) int {
 	}
 	return dp[len(nums)-1][size]
 }
+
+// findMaxForm 474. 一和零 https://leetcode.cn/problems/ones-and-zeroes/description/
+func findMaxForm(strs []string, m int, n int) int {
+	dp := make([][]int, m+1)
+	for i := 0; i < m+1; i++ {
+		dp[i] = make([]int, n+1)
+	}
+	for _, str := range strs {
+		zero := 0
+		one := 0
+		for _, ch := range str {
+			if ch == '0' {
+				zero++
+			} else {
+				one++
+			}
+		}
+		for i := m; i >= zero; i-- {
+			for j := n; j >= one; j-- {
+				dp[i][j] = max(dp[i][j], dp[i-zero][j-one]+1)
+			}
+		}
+	}
+	return dp[m][n]
+}
