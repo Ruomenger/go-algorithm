@@ -1,5 +1,7 @@
 package dp
 
+import "math"
+
 // fib 509. 斐波那契数 https://leetcode.cn/problems/fibonacci-number/description/
 func fib(n int) int {
 	if n <= 1 {
@@ -176,4 +178,46 @@ func lastStoneWeightII(stones []int) int {
 		}
 	}
 	return totalSum - dp[sum] - dp[sum]
+}
+
+// findTargetSumWays 494. 目标和 https://leetcode.cn/problems/target-sum/description/
+func findTargetSumWays(nums []int, target int) int {
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+	}
+	if target > sum || -target > sum {
+		return 0
+	}
+	if (target+sum)%2 == 1 {
+		return 0
+	}
+	size := (target + sum) >> 1
+
+	dp := make([][]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		dp[i] = make([]int, size+1)
+	}
+	if nums[0] <= size {
+		dp[0][nums[0]] = 1
+	}
+	dp[0][0] = 1
+	zero := float64(0)
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 0 {
+			zero++
+		}
+		dp[i][0] = int(math.Pow(2, zero))
+	}
+
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j <= size; j++ {
+			if nums[i] > j {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i]]
+			}
+		}
+	}
+	return dp[len(nums)-1][size]
 }
