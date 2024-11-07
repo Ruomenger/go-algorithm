@@ -246,3 +246,18 @@ func findMaxForm(strs []string, m int, n int) int {
 	}
 	return dp[m][n]
 }
+
+// change 518. 零钱兑换 II https://leetcode.cn/problems/coin-change-ii/description/
+func change(amount int, coins []int) int {
+	if amount <= 0 {
+		return 1
+	}
+	dp := make([]int, amount+1)
+	dp[0] = 1
+	for i := 0; i < len(coins); i++ {
+		for j := coins[i]; j <= amount; j++ {
+			dp[j] += dp[j-coins[i]]
+		}
+	}
+	return dp[amount]
+}
