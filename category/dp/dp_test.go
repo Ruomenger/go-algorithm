@@ -258,13 +258,35 @@ func Test_change(t *testing.T) {
 		args args
 		want int
 	}{
-		{"test1", args{5, []int{1, 2, 5}}, 4},
+		{"test1", args{5, []int{5, 2, 1}}, 4},
 		{"test2", args{3, []int{2}}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := change(tt.args.amount, tt.args.coins); got != tt.want {
 				t.Errorf("change() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_combinationSum4(t *testing.T) {
+	type args struct {
+		nums   []int
+		target int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{1, 2, 3}, 4}, 7},
+		{"test2", args{[]int{9}, 3}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := combinationSum4(tt.args.nums, tt.args.target); got != tt.want {
+				t.Errorf("combinationSum4() = %v, want %v", got, tt.want)
 			}
 		})
 	}

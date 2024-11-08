@@ -1,6 +1,8 @@
 package dp
 
-import "math"
+import (
+	"math"
+)
 
 // fib 509. 斐波那契数 https://leetcode.cn/problems/fibonacci-number/description/
 func fib(n int) int {
@@ -260,4 +262,21 @@ func change(amount int, coins []int) int {
 		}
 	}
 	return dp[amount]
+}
+
+// combinationSum4 377. 组合总和 Ⅳ https://leetcode.cn/problems/combination-sum-iv/description/
+func combinationSum4(nums []int, target int) int {
+	if target <= 0 {
+		return 1
+	}
+	dp := make([]int, target+1)
+	dp[0] = 1
+	for i := 0; i <= target; i++ {
+		for j := 0; j < len(nums); j++ {
+			if nums[j] <= i {
+				dp[i] += dp[i-nums[j]]
+			}
+		}
+	}
+	return dp[target]
 }
