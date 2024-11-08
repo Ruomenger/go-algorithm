@@ -314,3 +314,23 @@ func numSquares(n int) int {
 	}
 	return dp[n]
 }
+
+// wordBreak 139. 单词拆分 https://leetcode.cn/problems/word-break/description/
+func wordBreak(s string, wordDict []string) bool {
+	dp := make([]bool, len(s)+1)
+	wordMap := make(map[string]bool, len(wordDict))
+	for i := range wordDict {
+		wordMap[wordDict[i]] = true
+	}
+	dp[0] = true
+	for i := 1; i <= len(s); i++ {
+		for j := 0; j < i; j++ {
+			if dp[j] && wordMap[s[j:i]] {
+				dp[i] = true
+				break
+			}
+		}
+	}
+
+	return dp[len(s)]
+}
