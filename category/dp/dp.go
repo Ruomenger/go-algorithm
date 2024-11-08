@@ -300,3 +300,17 @@ func coinChange(coins []int, amount int) int {
 	}
 	return dp[amount]
 }
+
+// numSquares 279. 完全平方数 https://leetcode.cn/problems/perfect-squares/description/
+func numSquares(n int) int {
+	dp := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		dp[i] = math.MaxInt
+	}
+	for i := 0; i <= n; i++ {
+		for j := 1; j*j <= i; j++ {
+			dp[i] = min(dp[i-j*j]+1, dp[i])
+		}
+	}
+	return dp[n]
+}
