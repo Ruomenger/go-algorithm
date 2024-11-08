@@ -358,3 +358,100 @@ func Test_wordBreak(t *testing.T) {
 		})
 	}
 }
+
+func Test_rob(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{1, 2, 3, 1}}, 4},
+		{"test2", args{[]int{2, 7, 9, 3, 1}}, 12},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := rob(tt.args.nums); got != tt.want {
+				t.Errorf("rob() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_rob2(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{2, 3, 2}}, 3},
+		{"test2", args{[]int{1, 2, 3, 1}}, 4},
+		{"test3", args{[]int{1, 2, 3}}, 3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := rob2(tt.args.nums); got != tt.want {
+				t.Errorf("rob2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_rob3(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Left.Right = &TreeNode{Val: 3}
+	root1.Right = &TreeNode{Val: 3}
+	root1.Right.Right = &TreeNode{Val: 1}
+
+	root2 := &TreeNode{Val: 3}
+	root2.Left = &TreeNode{Val: 4}
+	root2.Left.Left = &TreeNode{Val: 1}
+	root2.Left.Right = &TreeNode{Val: 3}
+	root2.Right = &TreeNode{Val: 5}
+	root2.Right.Right = &TreeNode{Val: 1}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{root1}, 7},
+		{"test2", args{root2}, 9},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := rob3(tt.args.root); got != tt.want {
+				t.Errorf("rob3() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_maxProfit(t *testing.T) {
+	type args struct {
+		prices []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{7, 1, 5, 3, 6, 4}}, 5},
+		{"test2", args{[]int{7, 6, 4, 3, 1}}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maxProfit(tt.args.prices); got != tt.want {
+				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

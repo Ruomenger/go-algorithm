@@ -334,3 +334,72 @@ func wordBreak(s string, wordDict []string) bool {
 
 	return dp[len(s)]
 }
+
+// rob 198. 打家劫舍 https://leetcode.cn/problems/house-robber/
+func rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	dp := make([]int, len(nums)+1)
+	dp[0] = nums[0]
+	dp[1] = max(nums[0], nums[1])
+	for i := 2; i < len(nums); i++ {
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+	}
+	return dp[len(nums)-1]
+}
+
+// rob2 213. 打家劫舍 II https://leetcode.cn/problems/house-robber-ii/description/
+func rob2(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	r1 := rob(nums[0 : len(nums)-1])
+	r2 := rob(nums[1:])
+	return max(r1, r2)
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+// rob3 337. 打家劫舍 III https://leetcode.cn/problems/house-robber-iii/description/
+func rob3(root *TreeNode) int {
+	var robTree func(root *TreeNode) [2]int
+	robTree = func(root *TreeNode) [2]int {
+		if root == nil {
+			return [2]int{}
+		}
+		left := robTree(root.Left)
+		right := robTree(root.Right)
+		return [2]int{root.Val + left[1] + right[1], max(left[0], left[1]) + max(right[0], right[1])}
+	}
+	results := robTree(root)
+	return max(results[0], results[1])
+}
+
+// maxProfit 121. 买卖股票的最佳时机 https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/description/
+func maxProfit(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	dp := make([][]int, len(prices))
+	for i := 0; i < len(prices); i++ {
+		dp[i] = make([]int, 2)
+	}
+	dp[0][0] = -prices[0]
+	dp[0][1] = 0
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = max(dp[i-1][0], -prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]+prices[i])
+	}
+	return dp[len(prices)-1][1]
+}
