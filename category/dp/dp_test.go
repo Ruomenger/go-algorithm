@@ -810,3 +810,24 @@ func Test_countSubstrings(t *testing.T) {
 		})
 	}
 }
+
+func Test_longestPalindromeSubseq(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{"bbbab"}, 4},
+		{"test2", args{"cbbd"}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := longestPalindromeSubseq(tt.args.s); got != tt.want {
+				t.Errorf("longestPalindromeSubseq() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

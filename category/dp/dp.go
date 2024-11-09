@@ -756,3 +756,23 @@ func countSubstrings2(s string) int {
 	}
 	return result
 }
+
+// longestPalindromeSubseq 516. 最长回文子序列 https://leetcode.cn/problems/longest-palindromic-subsequence/description/
+func longestPalindromeSubseq(s string) int {
+	len1 := len(s)
+	dp := make([][]int, len1)
+	for i := 0; i < len1; i++ {
+		dp[i] = make([]int, len1)
+		dp[i][i] = 1
+	}
+	for i := len1 - 1; i >= 0; i-- {
+		for j := i + 1; j < len1; j++ {
+			if s[i] == s[j] {
+				dp[i][j] = dp[i+1][j-1] + 2
+			} else {
+				dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+			}
+		}
+	}
+	return dp[0][len1-1]
+}
