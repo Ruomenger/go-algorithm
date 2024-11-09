@@ -463,3 +463,26 @@ func maxProfit4(k int, prices []int) int {
 	}
 	return dp[len(prices)-1][2*k]
 }
+
+// maxProfit5 309. 买卖股票的最佳时机含冷冻期 https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/
+func maxProfit5(prices []int) int {
+	if len(prices) < 2 {
+		return 0
+	}
+	dp := make([][]int, len(prices))
+	for i := 0; i < len(prices); i++ {
+		dp[i] = make([]int, 4)
+	}
+	// 状态0：不持有股票，可能是未买入股票或两天前卖出过股票
+	// 状态1：持有股票的状态，今天买入了股票或延续之前买入的状态
+	// 状态2：卖出股票第一天的状态
+	// 状态3：冷冻期
+	dp[0][1] = -prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][3])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i], dp[i-1][3]-prices[i])
+		dp[i][2] = dp[i-1][1] + prices[i]
+		dp[i][3] = dp[i-1][2]
+	}
+	return max(dp[len(prices)-1][3], dp[len(prices)-1][2], dp[len(prices)-1][0])
+}
