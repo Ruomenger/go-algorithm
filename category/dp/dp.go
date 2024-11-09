@@ -537,3 +537,23 @@ func findLengthOfLCIS(nums []int) int {
 	}
 	return maxLen
 }
+
+// findLength 718. 最长重复子数组 https://leetcode.cn/problems/maximum-length-of-repeated-subarray/description/
+func findLength(nums1 []int, nums2 []int) int {
+	len1 := len(nums1)
+	len2 := len(nums2)
+	dp := make([][]int, len1+1)
+	for i := 0; i <= len1; i++ {
+		dp[i] = make([]int, len2+1)
+	}
+	maxLen := 0
+	for i := 1; i <= len1; i++ {
+		for j := 1; j <= len2; j++ {
+			if nums1[i-1] == nums2[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			}
+			maxLen = max(maxLen, dp[i][j])
+		}
+	}
+	return maxLen
+}
