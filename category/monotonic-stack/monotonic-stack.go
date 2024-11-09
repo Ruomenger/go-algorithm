@@ -65,3 +65,50 @@ func nextGreaterElements(nums []int) []int {
 	}
 	return ans
 }
+
+// trap 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
+// 双指针解法
+func trap(height []int) int {
+	if len(height) <= 2 {
+		return 0
+	}
+	maxLeft := make([]int, len(height))
+	maxLeft[0] = height[0]
+	for i := 1; i < len(height); i++ {
+		maxLeft[i] = max(maxLeft[i-1], height[i])
+	}
+	maxRight := make([]int, len(height))
+	maxRight[len(height)-1] = height[len(height)-1]
+	for i := len(height) - 2; i >= 0; i-- {
+		maxRight[i] = max(height[i], maxRight[i+1])
+	}
+	sum := 0
+	for i := 0; i < len(height); i++ {
+		cur := min(maxLeft[i], maxRight[i]) - height[i]
+		if cur > 0 {
+			sum += cur
+		}
+	}
+	return sum
+}
+
+// trap2 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
+// 单调栈解法
+func trap2(height []int) (ans int) {
+	stack := []int{}
+	for i, h := range height {
+		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if len(stack) == 0 {
+				break
+			}
+			left := stack[len(stack)-1]
+			curWidth := i - left - 1
+			curHeight := min(height[left], h) - height[top]
+			ans += curWidth * curHeight
+		}
+		stack = append(stack, i)
+	}
+	return
+}
