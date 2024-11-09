@@ -613,3 +613,17 @@ func maxSubArray(nums []int) int {
 	}
 	return maxSum
 }
+
+// isSubsequence 392. 判断子序列 https://leetcode.cn/problems/is-subsequence/description/
+func isSubsequence(s string, t string) bool {
+	if len(s) > len(t) {
+		return false
+	}
+	i := 0
+	for j := 0; j < len(t) && i < len(s); j++ {
+		if s[i] == t[j] {
+			i++
+		}
+	}
+	return i == len(s)
+}
