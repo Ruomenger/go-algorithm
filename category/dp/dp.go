@@ -708,3 +708,51 @@ func minDistance2(word1 string, word2 string) int {
 	}
 	return dp[len1][len2]
 }
+
+// countSubstrings 647. 回文子串 https://leetcode.cn/problems/palindromic-substrings/description/
+func countSubstrings(s string) int {
+	len1 := len(s)
+	dp := make([][]bool, len1)
+	for i := 0; i < len1; i++ {
+		dp[i] = make([]bool, len1)
+	}
+	result := 0
+	for i := len1 - 1; i >= 0; i-- {
+		for j := i; j < len1; j++ {
+			if s[i] == s[j] {
+				if j-i <= 1 {
+					result++
+					dp[i][j] = true
+				} else if dp[i+1][j-1] {
+					result++
+					dp[i][j] = true
+				}
+			}
+		}
+	}
+	return result
+}
+
+func countSubstrings2(s string) int {
+	len1 := len(s)
+	result := len1
+	for i := 0; i < len1; i++ {
+		left := i - 1
+		right := i + 1
+		for left >= 0 && right < len1 && s[left] == s[right] {
+			result++
+			left--
+			right++
+		}
+	}
+	for i := 0; i < len1-1; i++ {
+		left := i
+		right := i + 1
+		for left >= 0 && right < len1 && s[left] == s[right] {
+			result++
+			left--
+			right++
+		}
+	}
+	return result
+}
