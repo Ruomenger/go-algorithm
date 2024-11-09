@@ -522,3 +522,18 @@ func lengthOfLIS(nums []int) int {
 	}
 	return result
 }
+
+// findLengthOfLCIS 674. 最长连续递增序列 https://leetcode.cn/problems/longest-continuous-increasing-subsequence/description/
+func findLengthOfLCIS(nums []int) int {
+	maxLen := 1
+	curLen := 1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > nums[i-1] {
+			curLen++
+			maxLen = max(curLen, maxLen)
+		} else {
+			curLen = 1
+		}
+	}
+	return maxLen
+}
