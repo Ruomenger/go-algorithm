@@ -44,3 +44,24 @@ func nextGreaterElement(nums1, nums2 []int) []int {
 	}
 	return ans
 }
+
+// nextGreaterElements 503. 下一个更大元素 II https://leetcode.cn/problems/next-greater-element-ii/description/
+func nextGreaterElements(nums []int) []int {
+	n := len(nums)
+	ans := make([]int, n)
+	for i := range ans {
+		ans[i] = -1
+	}
+	stack := []int{}
+	for i := 0; i < 2*n; i++ {
+		num := nums[i%n]
+		for len(stack) > 0 && num > nums[stack[len(stack)-1]] {
+			ans[stack[len(stack)-1]] = num
+			stack = stack[:len(stack)-1]
+		}
+		if i < n {
+			stack = append(stack, i)
+		}
+	}
+	return ans
+}
