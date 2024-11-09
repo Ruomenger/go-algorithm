@@ -601,3 +601,15 @@ func maxUncrossedLines(nums1 []int, nums2 []int) int {
 	}
 	return maxLen
 }
+
+// maxSubArray 53. 最大子数组和 https://leetcode.cn/problems/maximum-subarray/description/
+func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	for i := 1; i < len(nums); i++ {
+		dp[i] = max(dp[i-1]+nums[i], nums[i])
+		maxSum = max(maxSum, dp[i])
+	}
+	return maxSum
+}
