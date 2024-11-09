@@ -504,3 +504,21 @@ func maxProfit6(prices []int, fee int) int {
 
 	return dp[len(prices)-1][1]
 }
+
+// lengthOfLIS 300. 最长递增子序列 https://leetcode.cn/problems/longest-increasing-subsequence/description/
+func lengthOfLIS(nums []int) int {
+	dp := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		dp[i] = 1
+	}
+	result := 1
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				dp[i] = max(dp[i], dp[j]+1)
+			}
+		}
+		result = max(dp[i], result)
+	}
+	return result
+}
