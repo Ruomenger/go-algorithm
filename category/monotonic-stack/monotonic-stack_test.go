@@ -93,3 +93,27 @@ func Test_trap(t *testing.T) {
 		})
 	}
 }
+
+func Test_largestRectangleArea(t *testing.T) {
+	type args struct {
+		heights []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{2, 1, 5, 6, 2, 3}}, 10},
+		{"test2", args{[]int{2, 4}}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := largestRectangleArea(tt.args.heights); got != tt.want {
+				t.Errorf("largestRectangleArea() = %v, want %v", got, tt.want)
+			}
+			if got := largestRectangleArea2(tt.args.heights); got != tt.want {
+				t.Errorf("largestRectangleArea2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

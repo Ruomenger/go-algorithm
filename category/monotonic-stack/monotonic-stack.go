@@ -112,3 +112,63 @@ func trap2(height []int) (ans int) {
 	}
 	return
 }
+
+// largestRectangleArea 84. 柱状图中最大的矩形 https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
+// 双指针
+func largestRectangleArea(heights []int) int {
+	minLeftIdx := make([]int, len(heights))
+	minRightIdx := make([]int, len(heights))
+	minLeftIdx[0] = -1
+	for i := 1; i < len(heights); i++ {
+		t := i - 1
+		for t >= 0 && heights[t] >= heights[i] {
+			t = minLeftIdx[t]
+		}
+		minLeftIdx[i] = t
+	}
+	minRightIdx[len(heights)-1] = len(heights)
+	for i := len(heights) - 2; i >= 0; i-- {
+		t := i + 1
+		for t < len(heights) && heights[t] >= heights[i] {
+			t = minRightIdx[t]
+		}
+		minRightIdx[i] = t
+	}
+	result := 0
+	for i := 0; i < len(heights); i++ {
+		result = max(result, heights[i]*(minRightIdx[i]-minLeftIdx[i]-1))
+	}
+	return result
+}
+
+// largestRectangleArea 84. 柱状图中最大的矩形 https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
+// 单调栈
+func largestRectangleArea2(heights []int) int {
+	max := 0
+	// 使用切片实现栈
+	stack := make([]int, 0)
+	// 数组头部加入0
+	heights = append([]int{0}, heights...)
+	// 数组尾部加入0
+	heights = append(heights, 0)
+	// 初始化栈，序号从0开始
+	stack = append(stack, 0)
+	for i := 1; i < len(heights); i++ {
+		// 结束循环条件为：当即将入栈元素>top元素，也就是形成非单调递增的趋势
+		for heights[stack[len(stack)-1]] > heights[i] {
+			// mid 是top
+			mid := stack[len(stack)-1]
+			// 出栈
+			stack = stack[0 : len(stack)-1]
+			// left是top的下一位元素，i是将要入栈的元素
+			left := stack[len(stack)-1]
+			// 高度x宽度
+			tmp := heights[mid] * (i - left - 1)
+			if tmp > max {
+				max = tmp
+			}
+		}
+		stack = append(stack, i)
+	}
+	return max
+}
