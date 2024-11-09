@@ -21,3 +21,26 @@ func dailyTemperatures(temperatures []int) []int {
 	}
 	return res
 }
+
+// nextGreaterElement 496. 下一个更大元素 I https://leetcode.cn/problems/next-greater-element-i/description/
+func nextGreaterElement(nums1, nums2 []int) []int {
+	num1ToIdx := make(map[int]int, len(nums1)) // 预分配空间
+	for idx, num1 := range nums1 {
+		num1ToIdx[num1] = idx
+	}
+	ans := make([]int, len(nums1))
+	for i := range ans {
+		ans[i] = -1
+	}
+	stack := []int{}
+	for _, num2 := range nums2 {
+		for len(stack) > 0 && num2 > stack[len(stack)-1] {
+			ans[num1ToIdx[stack[len(stack)-1]]] = num2
+			stack = stack[:len(stack)-1]
+		}
+		if _, ok := num1ToIdx[num2]; ok {
+			stack = append(stack, num2)
+		}
+	}
+	return ans
+}
