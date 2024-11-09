@@ -439,3 +439,27 @@ func maxProfit3(prices []int) int {
 	}
 	return dp[len(prices)-1][4]
 }
+
+// maxProfit4 188. 买卖股票的最佳时机 IV https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/description/
+func maxProfit4(k int, prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	dp := make([][]int, len(prices))
+	for i := 0; i < len(prices); i++ {
+		dp[i] = make([]int, 2*k+1)
+	}
+	for i := 1; i <= 2*k; i += 2 {
+		dp[0][i] = -prices[0]
+	}
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = dp[i-1][0]
+		for j := 1; j <= 2*k; j += 2 {
+			dp[i][j] = max(dp[i-1][j], dp[i-1][j-1]-prices[i])
+		}
+		for j := 2; j <= 2*k; j += 2 {
+			dp[i][j] = max(dp[i-1][j], dp[i-1][j-1]+prices[i])
+		}
+	}
+	return dp[len(prices)-1][2*k]
+}
