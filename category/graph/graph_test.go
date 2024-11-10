@@ -25,3 +25,46 @@ func Test_allPathsSourceTarget(t *testing.T) {
 		})
 	}
 }
+
+func Test_numIslands(t *testing.T) {
+	type args struct {
+		grid [][]byte
+	}
+	args1 := [][]byte{
+		{'1', '1', '1', '1', '0'},
+		{'1', '1', '0', '1', '0'},
+		{'1', '1', '0', '0', '0'},
+		{'0', '0', '0', '0', '0'},
+	}
+	args2 := [][]byte{
+		{'1', '1', '0', '0', '0'},
+		{'1', '1', '0', '0', '0'},
+		{'0', '0', '1', '0', '0'},
+		{'0', '0', '0', '1', '1'},
+	}
+	args3 := [][]byte{
+		{'1', '0', '1', '1', '1'},
+		{'1', '0', '1', '0', '1'},
+		{'1', '1', '1', '0', '1'},
+	}
+
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{args1}, 1},
+		{"test2", args{args2}, 3},
+		{"test3", args{args3}, 1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := numIslands(tt.args.grid); got != tt.want {
+				t.Errorf("numIslands() = %v, want %v", got, tt.want)
+			}
+			if got := numIslands2(tt.args.grid); got != tt.want {
+				t.Errorf("numIslands2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
