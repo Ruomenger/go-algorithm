@@ -204,3 +204,21 @@ func removeDuplicates2(nums []int) int {
 	}
 	return slow
 }
+
+// majorityElement 169. 多数元素 simple
+// https://leetcode.cn/problems/majority-element/description/
+func majorityElement(nums []int) int {
+	ans := nums[0]
+	count := 1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] == ans {
+			count++
+		} else if count == 0 {
+			count++
+			ans = nums[i]
+		} else {
+			count--
+		}
+	}
+	return ans
+}
