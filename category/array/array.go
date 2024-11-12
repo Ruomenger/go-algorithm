@@ -174,3 +174,16 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 // 		}
 // 	}
 // }
+
+// removeDuplicates 26. 删除有序数组中的重复项 simple
+// https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description
+func removeDuplicates(nums []int) int {
+	cur := 1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] != nums[cur-1] {
+			nums[cur] = nums[i]
+			cur++
+		}
+	}
+	return cur
+}
