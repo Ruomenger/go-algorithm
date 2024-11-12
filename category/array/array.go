@@ -187,3 +187,20 @@ func removeDuplicates(nums []int) int {
 	}
 	return cur
 }
+
+// removeDuplicates2 80. 删除有序数组中的重复项 II medium
+// https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/
+func removeDuplicates2(nums []int) int {
+	if len(nums) <= 2 {
+		return len(nums)
+	}
+	slow, fast := 2, 2
+	for fast < len(nums) {
+		if nums[slow-2] != nums[fast] {
+			nums[slow] = nums[fast]
+			slow++
+		}
+		fast++
+	}
+	return slow
+}
