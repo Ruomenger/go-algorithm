@@ -128,3 +128,49 @@ func sortedSquares(nums []int) []int {
 	}
 	return answers
 }
+
+// merge simple 88. 合并两个有序数组
+// https://leetcode.cn/problems/merge-sorted-array/description/
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	for p1, p2, tail := m-1, n-1, m+n-1; p1 >= 0 || p2 >= 0; tail-- {
+		var cur int
+		if p1 == -1 {
+			cur = nums2[p2]
+			p2--
+		} else if p2 == -1 {
+			cur = nums1[p1]
+			p1--
+		} else if nums1[p1] > nums2[p2] {
+			cur = nums1[p1]
+			p1--
+		} else {
+			cur = nums2[p2]
+			p2--
+		}
+		nums1[tail] = cur
+	}
+}
+
+// func merge(nums1 []int, m int, nums2 []int, n int) {
+// 	if n == 0 {
+// 		return
+// 	}
+// 	i := 0
+// 	j := 0
+
+// 	for i < len(nums1) {
+// 		if i >= m {
+// 			nums1[i] = nums2[j]
+// 			j++
+// 			i++
+// 		} else if nums1[i] <= nums2[j] {
+// 			i++
+// 		} else {
+// 			nums1[i], nums2[j] = nums2[j], nums1[i]
+// 			for k := j; k < n-1 && nums2[k] > nums2[k+1]; k++ {
+// 				nums2[k], nums2[k+1] = nums2[k+1], nums2[k]
+// 			}
+// 			i++
+// 		}
+// 	}
+// }
