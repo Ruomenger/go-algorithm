@@ -1,6 +1,9 @@
 package array
 
-import "math"
+import (
+	"math"
+	"slices"
+)
 
 // removeElement simple 27. 移除元素
 // https://leetcode.cn/problems/remove-element/description/
@@ -221,4 +224,16 @@ func majorityElement(nums []int) int {
 		}
 	}
 	return ans
+}
+
+// rotate 189. 轮转数组 medium
+// https://leetcode.cn/problems/rotate-array/description/
+func rotate(nums []int, k int) {
+	k = k % len(nums)
+	if k == 0 {
+		return
+	}
+	slices.Reverse(nums)
+	slices.Reverse(nums[:k])
+	slices.Reverse(nums[k:])
 }
