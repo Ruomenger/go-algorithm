@@ -237,3 +237,18 @@ func rotate(nums []int, k int) {
 	slices.Reverse(nums[:k])
 	slices.Reverse(nums[k:])
 }
+
+// hIndex 274. H 指数 medium
+// https://leetcode.cn/problems/h-index/description/
+func hIndex(citations []int) int {
+	ans := len(citations)
+	slices.Sort(citations)
+	for i := 0; i < len(citations); i++ {
+		if citations[i] < ans {
+			ans--
+		} else {
+			break
+		}
+	}
+	return ans
+}
