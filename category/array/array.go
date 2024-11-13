@@ -317,3 +317,27 @@ func productExceptSelf(nums []int) []int {
 	}
 	return ans
 }
+
+// romanToInt 13. 罗马数字转整数 simple
+// https://leetcode.cn/problems/roman-to-integer/description/
+func romanToInt(s string) int {
+	romans := map[byte]int{
+		'I': 1,
+		'V': 5,
+		'X': 10,
+		'L': 50,
+		'C': 100,
+		'D': 500,
+		'M': 1000,
+	}
+	ans := romans[s[len(s)-1]]
+	for i := 1; i < len(s); i++ {
+		x, y := romans[s[i-1]], romans[s[i]]
+		if x < y {
+			ans -= x
+		} else {
+			ans += x
+		}
+	}
+	return ans
+}
