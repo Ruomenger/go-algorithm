@@ -301,3 +301,19 @@ func (this *RandomizedSet) GetRandom() int {
  * param_2 := obj.Remove(val);
  * param_3 := obj.GetRandom();
  */
+
+// productExceptSelf 238. 除自身以外数组的乘积 medium
+// https://leetcode.cn/problems/product-of-array-except-self/description/
+func productExceptSelf(nums []int) []int {
+	ans := make([]int, len(nums))
+	ans[0] = 1
+	for i := 1; i < len(nums); i++ {
+		ans[i] = ans[i-1] * nums[i-1]
+	}
+	temp := 1
+	for i := len(nums) - 2; i >= 0; i-- {
+		temp *= nums[i+1]
+		ans[i] *= temp
+	}
+	return ans
+}
