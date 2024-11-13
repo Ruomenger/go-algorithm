@@ -415,3 +415,41 @@ func longestCommonPrefix(strs []string) string {
 	}
 	return strs[0][:idx]
 }
+
+// reverseWords 151. 反转字符串中的单词 medium
+// https://leetcode.cn/problems/reverse-words-in-a-string/description/
+func reverseWords(s string) string {
+	reverse := func(strs []byte) {
+		for i := 0; i < len(strs)/2; i++ {
+			strs[i], strs[len(strs)-i-1] = strs[len(strs)-1-i], strs[i]
+		}
+	}
+	bytes := []byte(s)
+	// 首先移除所有的空格，思路是去除所有的空格，然后在单词之间补加一个空格
+	slow := 0
+	for fast := 0; fast < len(s); fast++ {
+		if bytes[fast] != ' ' {
+			if slow > 0 {
+				bytes[slow] = ' '
+				slow++
+			}
+			for fast < len(s) && bytes[fast] != ' ' {
+				bytes[slow] = bytes[fast]
+				slow++
+				fast++
+			}
+		}
+	}
+	bytes = bytes[:slow]
+	reverse(bytes)
+	left := 0
+	for i := 0; i < len(bytes); i++ {
+		if i == len(bytes)-1 {
+			reverse(bytes[left:])
+		} else if bytes[i] == ' ' {
+			reverse(bytes[left:i])
+			left = i + 1
+		}
+	}
+	return string(bytes)
+}
