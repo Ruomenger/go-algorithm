@@ -360,3 +360,24 @@ func Test_romanToInt(t *testing.T) {
 		})
 	}
 }
+
+func Test_intToRoman(t *testing.T) {
+	type args struct {
+		num int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"test1", args{3749}, "MMMDCCXLIX"},
+		{"test1", args{1994}, "MCMXCIV"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := intToRoman(tt.args.num); got != tt.want {
+				t.Errorf("intToRoman() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
