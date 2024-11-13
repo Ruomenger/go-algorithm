@@ -2,6 +2,7 @@ package array
 
 import (
 	"math"
+	"math/rand"
 	"slices"
 )
 
@@ -252,3 +253,51 @@ func hIndex(citations []int) int {
 	}
 	return ans
 }
+
+// RandomizedSet 380. O(1) 时间插入、删除和获取随机元素 medium
+// https://leetcode.cn/problems/insert-delete-getrandom-o1/description/
+type RandomizedSet struct {
+	data  map[int]int
+	array []int
+}
+
+func Constructor() RandomizedSet {
+	return RandomizedSet{
+		data:  make(map[int]int),
+		array: make([]int, 0),
+	}
+}
+
+func (this *RandomizedSet) Insert(val int) bool {
+	if _, ok := this.data[val]; ok {
+		return false
+	}
+	this.data[val] = len(this.array)
+	this.array = append(this.array, val)
+	return true
+}
+
+func (this *RandomizedSet) Remove(val int) bool {
+	idx, ok := this.data[val]
+	if !ok {
+		return false
+	}
+	last := len(this.array) - 1
+	this.array[idx] = this.array[last]
+	this.data[this.array[idx]] = idx
+	this.array = this.array[:last]
+	delete(this.data, val)
+	return true
+}
+
+func (this *RandomizedSet) GetRandom() int {
+	return this.array[rand.Intn(len(this.array))]
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * obj := Constructor();
+ * param_1 := obj.Insert(val);
+ * param_2 := obj.Remove(val);
+ * param_3 := obj.GetRandom();
+ */
