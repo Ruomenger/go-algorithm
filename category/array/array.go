@@ -375,3 +375,19 @@ func intToRoman(num int) string {
 	}
 	return string(roman)
 }
+
+// lengthOfLastWord 58. 最后一个单词的长度 simple
+// https://leetcode.cn/problems/length-of-last-word/description/
+func lengthOfLastWord(s string) int {
+	ans := 0
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == ' ' {
+			if ans == 0 {
+				continue
+			}
+			break
+		}
+		ans++
+	}
+	return ans
+}
