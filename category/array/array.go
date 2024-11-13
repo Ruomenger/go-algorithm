@@ -391,3 +391,27 @@ func lengthOfLastWord(s string) int {
 	}
 	return ans
 }
+
+// longestCommonPrefix 14. 最长公共前缀 simple
+// https://leetcode.cn/problems/longest-common-prefix/description/
+func longestCommonPrefix(strs []string) string {
+	if len(strs) == 1 {
+		return strs[0]
+	}
+	minLen := math.MaxInt
+	for i := 0; i < len(strs); i++ {
+		minLen = min(len(strs[i]), minLen)
+	}
+	if minLen == 0 {
+		return ""
+	}
+	idx := 0
+	for ; idx < minLen; idx++ {
+		for j := 1; j < len(strs); j++ {
+			if strs[j][idx] != strs[0][idx] {
+				return strs[0][:idx]
+			}
+		}
+	}
+	return strs[0][:idx]
+}
