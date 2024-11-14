@@ -453,3 +453,57 @@ func reverseWords(s string) string {
 	}
 	return string(bytes)
 }
+
+// convert 6. Z 字形变换 medium
+// https://leetcode.cn/problems/zigzag-conversion/description/
+func convert(s string, numRows int) string {
+	if numRows == 1 || len(s) <= numRows {
+		return s
+	}
+	c := (len(s) + 2*numRows - 3) / (2*numRows - 2) * (numRows - 1)
+	matrix := make([][]byte, numRows)
+	for i := 0; i < numRows; i++ {
+		matrix[i] = make([]byte, c)
+	}
+	x, y := 0, 0
+	bytes := []byte(s)
+	for i, ch := range bytes {
+		matrix[x][y] = ch
+		if i%(2*numRows-2) < numRows-1 {
+			x++
+		} else {
+			x--
+			y++
+		}
+	}
+	ans := make([]byte, 0, len(s))
+	for i := range matrix {
+		for j := range matrix[i] {
+			if matrix[i][j] > 0 {
+				ans = append(ans, matrix[i][j])
+			}
+		}
+	}
+	return string(ans)
+}
+
+func convert2(s string, numRows int) string {
+	if numRows == 1 || len(s) <= numRows {
+		return s
+	}
+	matrix := make([][]byte, numRows)
+	idx := 0
+	flag := -1
+	for i := 0; i < len(s); i++ {
+		matrix[idx] = append(matrix[idx], s[i])
+		if idx == 0 || idx == numRows-1 {
+			flag = -flag
+		}
+		idx += flag
+	}
+	ans := make([]byte, 0, len(s))
+	for i := range matrix {
+		ans = append(ans, matrix[i]...)
+	}
+	return string(ans)
+}
