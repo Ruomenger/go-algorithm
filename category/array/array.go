@@ -524,3 +524,18 @@ func twoSum(numbers []int, target int) []int {
 	}
 	return []int{0, 0}
 }
+
+// maxArea 11. 盛最多水的容器 medium
+// https://leetcode.cn/problems/container-with-most-water/description/
+func maxArea(height []int) int {
+	area := 0
+	for left, right := 0, len(height)-1; left < right; {
+		area = max(area, min(height[left], height[right])*(right-left))
+		if height[left] < height[right] {
+			left++
+		} else {
+			right--
+		}
+	}
+	return area
+}
