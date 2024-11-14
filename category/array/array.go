@@ -539,3 +539,25 @@ func maxArea(height []int) int {
 	}
 	return area
 }
+
+// threeSum 15. 三数之和 medium
+// https://leetcode.cn/problems/3sum/description/
+func threeSum(nums []int) [][]int {
+	slices.Sort(nums)
+	ans := make([][]int, 0)
+	for i := 0; i < len(nums); i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+		for j := i + 1; j < len(nums); j++ {
+			if j > i+1 && nums[j] == nums[j-1] {
+				continue
+			}
+			num, ok := slices.BinarySearch(nums[j+1:], -nums[i]-nums[j])
+			if ok {
+				ans = append(ans, []int{nums[i], nums[j], nums[num+j+1]})
+			}
+		}
+	}
+	return ans
+}
