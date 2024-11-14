@@ -507,3 +507,20 @@ func convert2(s string, numRows int) string {
 	}
 	return string(ans)
 }
+
+// twoSum 167. 两数之和 II - 输入有序数组 medium
+// https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/description/
+func twoSum(numbers []int, target int) []int {
+	left := 0
+	right := len(numbers) - 1
+	for left < right {
+		if numbers[left]+numbers[right] > target {
+			right--
+		} else if numbers[left]+numbers[right] < target {
+			left++
+		} else {
+			return []int{left + 1, right + 1}
+		}
+	}
+	return []int{0, 0}
+}
