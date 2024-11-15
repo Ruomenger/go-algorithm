@@ -561,3 +561,22 @@ func threeSum(nums []int) [][]int {
 	}
 	return ans
 }
+
+// canConstruct 383. 赎金信 simple
+// https://leetcode.cn/problems/ransom-note/description/
+func canConstruct(ransomNote string, magazine string) bool {
+	if len(magazine) < len(ransomNote) {
+		return false
+	}
+	chMap := make(map[byte]int, 26)
+	for i := 0; i < len(magazine); i++ {
+		chMap[magazine[i]]++
+	}
+	for i := 0; i < len(ransomNote); i++ {
+		chMap[ransomNote[i]]--
+		if chMap[ransomNote[i]] < 0 {
+			return false
+		}
+	}
+	return true
+}
