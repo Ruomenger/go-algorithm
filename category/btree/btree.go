@@ -6,6 +6,11 @@ import (
 	"strconv"
 )
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -803,5 +808,29 @@ func convertBST(root *TreeNode) *TreeNode {
 		return build(node.Left, node.Val)
 	}
 	build(root, 0)
+	return root
+}
+
+// sortedListToBST 109. 有序链表转换二叉搜索树 medium
+// https://leetcode.cn/problems/convert-sorted-list-to-binary-search-tree/description/
+func sortedListToBST(head *ListNode) *TreeNode {
+	if head == nil {
+		return nil
+	}
+	if head.Next == nil {
+		return &TreeNode{Val: head.Val}
+	}
+	slow, fast := head, head
+	var pre *ListNode
+	for fast != nil && fast.Next != nil {
+		pre = slow
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	pre.Next = nil
+	root := &TreeNode{Val: slow.Val}
+	root.Left = sortedListToBST(head)
+	root.Right = sortedListToBST(slow.Next)
+
 	return root
 }
