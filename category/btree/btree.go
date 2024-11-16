@@ -834,3 +834,40 @@ func sortedListToBST(head *ListNode) *TreeNode {
 
 	return root
 }
+
+// removeLeafNodes 1325. 删除给定值的叶子节点
+// tag: 二叉树
+// level: medium
+// https://leetcode.cn/problems/delete-leaves-with-a-given-value/description/
+func removeLeafNodes(root *TreeNode, target int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	var delete func(*TreeNode) (*TreeNode, bool)
+	delete = func(node *TreeNode) (*TreeNode, bool) {
+		if node == nil {
+			return nil, true
+		}
+		leftNode, leftIs := delete(node.Left)
+		rightNode, rightIs := delete(node.Right)
+		if leftIs && leftNode != nil && leftNode.Val == target {
+			leftNode = nil
+		}
+		if rightIs && rightNode != nil && rightNode.Val == target {
+			rightNode = nil
+		}
+
+		node.Left = leftNode
+		node.Right = rightNode
+		if leftNode == nil && rightNode == nil {
+			return node, true
+		}
+		return node, false
+	}
+
+	node, is := delete(root)
+	if is && node.Val == target {
+		return nil
+	}
+	return node
+}

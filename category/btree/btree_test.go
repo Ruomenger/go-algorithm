@@ -890,3 +890,44 @@ func Test_sortedListToBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_removeLeafNodes(t *testing.T) {
+	type args struct {
+		root   *TreeNode
+		target int
+	}
+	root1 := &TreeNode{Val: 1}
+	root1.Left = &TreeNode{Val: 2}
+	root1.Right = &TreeNode{Val: 3}
+	root1.Left.Left = &TreeNode{Val: 2}
+	root1.Right.Left = &TreeNode{Val: 2}
+	root1.Right.Right = &TreeNode{Val: 4}
+	ans1 := &TreeNode{Val: 1}
+	ans1.Right = &TreeNode{Val: 3}
+	ans1.Right.Right = &TreeNode{Val: 4}
+
+	var equal func(node1, node2 *TreeNode) bool
+	equal = func(node1, node2 *TreeNode) bool {
+		if node1 == node2 {
+			return true
+		}
+		if node1 == nil || node2 == nil || node1.Val != node2.Val {
+			return false
+		}
+		return equal(node1.Left, node2.Left) && equal(node1.Right, node2.Right)
+	}
+	tests := []struct {
+		name string
+		args args
+		want *TreeNode
+	}{
+		{"test1", args{root1, 2}, ans1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := removeLeafNodes(tt.args.root, tt.args.target); !equal(got, tt.want) {
+				t.Errorf("removeLeafNodes() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
