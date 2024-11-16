@@ -384,3 +384,25 @@ func Test_minCameraCover(t *testing.T) {
 		})
 	}
 }
+
+func Test_minTaps(t *testing.T) {
+	type args struct {
+		n      int
+		ranges []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{5, []int{3, 4, 1, 1, 0, 0}}, 1},
+		{"test2", args{3, []int{0, 0, 0, 0}}, -1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minTaps(tt.args.n, tt.args.ranges); got != tt.want {
+				t.Errorf("minTaps() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

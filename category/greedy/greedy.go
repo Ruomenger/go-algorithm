@@ -346,3 +346,31 @@ func minCameraCover(root *TreeNode) int {
 	}
 	return result
 }
+
+// minTaps 1326. 灌溉花园的最少水龙头数目
+// level: hard
+// tag: 动态规划、贪心
+// https://leetcode.cn/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/
+func minTaps(n int, ranges []int) int {
+	rightMost := make([]int, n+1)
+	for i := range rightMost {
+		rightMost[i] = i
+	}
+	for i, r := range ranges {
+		start := max(0, i-r)
+		end := min(n, i+r)
+		rightMost[start] = max(rightMost[start], end)
+	}
+	last, ans, pre := 0, 0, 0
+	for i := 0; i < n; i++ {
+		last = max(last, rightMost[i])
+		if i == last {
+			return -1
+		}
+		if i == pre {
+			ans++
+			pre = last
+		}
+	}
+	return ans
+}
