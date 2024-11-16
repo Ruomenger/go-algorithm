@@ -29,3 +29,33 @@ func maxVowels(s string, k int) int {
 	}
 	return max(maxNum, curNum)
 }
+
+// findAnagrams 438. 找到字符串中所有字母异位词
+// level: 中等
+// tag: 滑动窗口
+// https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/
+func findAnagrams(s string, p string) []int {
+	ans := make([]int, 0)
+	if len(s) < len(p) {
+		return ans
+	}
+	pCnt := [26]int{}
+	for i := 0; i < len(p); i++ {
+		pCnt[p[i]-'a']++
+	}
+
+	sCnt := [26]int{}
+	for left, right := 0, 0; right < len(s); right++ {
+		sCnt[s[right]-'a']++
+		if right-left+1 < len(p) {
+			continue
+		}
+		if sCnt == pCnt {
+			ans = append(ans, left)
+		}
+		sCnt[s[left]-'a']--
+		left++
+	}
+
+	return ans
+}

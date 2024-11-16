@@ -1,6 +1,9 @@
 package sliding_window
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func Test_maxVowels(t *testing.T) {
 	type args struct {
@@ -22,6 +25,29 @@ func Test_maxVowels(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := maxVowels(tt.args.s, tt.args.k); got != tt.want {
 				t.Errorf("maxVowels() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_findAnagrams(t *testing.T) {
+	type args struct {
+		s string
+		p string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{"test1", args{"cbaebabacd", "abc"}, []int{0, 6}},
+		{"test2", args{"abab", "ab"}, []int{0, 1, 2}},
+		{"test3", args{"acdcaeccde", "c"}, []int{1, 3, 6, 7}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := findAnagrams(tt.args.s, tt.args.p); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("findAnagrams() = %v, want %v", got, tt.want)
 			}
 		})
 	}
