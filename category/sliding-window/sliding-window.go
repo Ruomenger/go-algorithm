@@ -59,3 +59,43 @@ func findAnagrams(s string, p string) []int {
 
 	return ans
 }
+
+// findSubstring 30. 串联所有单词的子串
+// level: 困难
+// tag: 滑动窗口
+// https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/
+func findSubstring(s string, words []string) []int {
+	ans := make([]int, 0)
+	if len(s) < len(words) {
+		return ans
+	}
+	n := len(s)
+	m := len(words)
+	w := len(words[0])
+	total := make(map[string]int, len(words))
+	for i := 0; i < m; i++ {
+		total[words[i]]++
+	}
+	for i := 0; i < w; i++ {
+		window := make(map[string]int)
+		cnt := 0
+		for j := i; j+w <= n; j += w {
+			if j-i >= w*m {
+				word := s[j-m*w : j-m*w+w]
+				window[word]--
+				if window[word] < total[word] {
+					cnt--
+				}
+			}
+			word := s[j : j+w]
+			window[word]++
+			if window[word] <= total[word] {
+				cnt++
+			}
+			if cnt == m {
+				ans = append(ans, j-(m-1)*w)
+			}
+		}
+	}
+	return ans
+}
