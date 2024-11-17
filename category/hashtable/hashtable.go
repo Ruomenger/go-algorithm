@@ -214,3 +214,21 @@ func fourSum(nums []int, target int) [][]int {
 	}
 	return res
 }
+
+// isIsomorphic 205. 同构字符串
+// level: 简单
+// tag: 哈希
+// https://leetcode.cn/problems/isomorphic-strings/description/
+func isIsomorphic(s, t string) bool {
+	s2t := map[byte]byte{}
+	t2s := map[byte]byte{}
+	for i := range s {
+		x, y := s[i], t[i]
+		if s2t[x] > 0 && s2t[x] != y || t2s[y] > 0 && t2s[y] != x {
+			return false
+		}
+		s2t[x] = y
+		t2s[y] = x
+	}
+	return true
+}

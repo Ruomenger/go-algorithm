@@ -203,3 +203,26 @@ func TestFourSum(t *testing.T) {
 		})
 	}
 }
+
+func Test_isIsomorphic(t *testing.T) {
+	type args struct {
+		s string
+		t string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"test1", args{"egg", "add"}, true},
+		{"test2", args{"foo", "bar"}, false},
+		{"test3", args{"paper", "title"}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isIsomorphic(tt.args.s, tt.args.t); got != tt.want {
+				t.Errorf("isIsomorphic() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
