@@ -1,6 +1,7 @@
 package hashtable
 
 import (
+	"slices"
 	"sort"
 	"strings"
 )
@@ -256,4 +257,23 @@ func wordPattern(pattern string, s string) bool {
 
 	}
 	return true
+}
+
+// groupAnagrams 49. 字母异位词分组
+// level: 中等
+// tag: 哈希表
+// https://leetcode.cn/problems/group-anagrams/description/
+func groupAnagrams(strs []string) [][]string {
+	strMap := make(map[string][]string)
+	for i := 0; i < len(strs); i++ {
+		bytes := []byte(strs[i])
+		slices.Sort(bytes)
+		s := string(bytes)
+		strMap[s] = append(strMap[s], strs[i])
+	}
+	ans := make([][]string, 0, len(strMap))
+	for _, v := range strMap {
+		ans = append(ans, v)
+	}
+	return ans
 }
