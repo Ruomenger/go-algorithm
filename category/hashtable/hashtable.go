@@ -293,3 +293,30 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 	}
 	return false
 }
+
+// longestConsecutive 128. 最长连续序列
+// level: 中等
+// tag: 哈希表
+// https://leetcode.cn/problems/longest-consecutive-sequence/description/
+func longestConsecutive(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	records := make(map[int]bool)
+	for i := 0; i < len(nums); i++ {
+		records[nums[i]] = true
+	}
+	ans := 0
+	for num := range records {
+		if records[num-1] {
+			continue
+		}
+		count := 0
+		for records[num] {
+			count++
+			num += 1
+		}
+		ans = max(ans, count)
+	}
+	return ans
+}
