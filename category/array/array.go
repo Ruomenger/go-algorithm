@@ -580,3 +580,29 @@ func canConstruct(ransomNote string, magazine string) bool {
 	}
 	return true
 }
+
+// isZeroArray 3355. 零数组变换 I
+// level: 中等
+// tag: 差分
+func isZeroArray(nums []int, queries [][]int) bool {
+	n := len(nums)
+	delta := make([]int, n+1)
+
+	for i := range queries {
+		left, right := queries[i][0], queries[i][1]
+		delta[left]--
+		if right+1 < n {
+			delta[right+1]++
+		}
+	}
+	diff := 0
+	for i := 0; i < n; i++ {
+		diff += delta[i]
+		nums[i] += diff
+		if nums[i] > 0 {
+			return false
+		}
+	}
+
+	return true
+}
