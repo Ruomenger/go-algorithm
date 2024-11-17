@@ -732,3 +732,71 @@ func minZeroArray(nums []int, queries [][]int) int {
 	}
 	return left
 }
+
+// gameOfLife 289. 生命游戏
+// level: medium
+// tag: 矩阵、模拟
+func gameOfLife(board [][]int) {
+	abs := func(num int) int {
+		if num < 0 {
+			return -num
+		}
+		return num
+	}
+	n := len(board)
+	m := len(board[0])
+	check := func(i, j int) {
+		count := 0
+		if i-1 >= 0 {
+			if j-1 >= 0 && abs(board[i-1][j-1]) == 1 {
+				count++
+			}
+			if abs(board[i-1][j]) == 1 {
+				count++
+			}
+			if j+1 < m && abs(board[i-1][j+1]) == 1 {
+				count++
+			}
+		}
+		if i+1 < n {
+			if j-1 >= 0 && abs(board[i+1][j-1]) == 1 {
+				count++
+			}
+			if abs(board[i+1][j]) == 1 {
+				count++
+			}
+			if j+1 < m && abs(board[i+1][j+1]) == 1 {
+				count++
+			}
+		}
+		if j-1 >= 0 && abs(board[i][j-1]) == 1 {
+			count++
+		}
+		if j+1 < m && abs(board[i][j+1]) == 1 {
+			count++
+		}
+		if board[i][j] == 1 {
+			if count < 2 || count > 3 {
+				board[i][j] = -1
+			}
+		}
+		if board[i][j] == 0 && count == 3 {
+			board[i][j] = 2
+		}
+	}
+	for i := 0; i < n; i++ {
+		for j := 0; j < m; j++ {
+			check(i, j)
+		}
+	}
+
+	for i := 0; i < n; i++ {
+		for j := 0; j < m; j++ {
+			if board[i][j] == -1 {
+				board[i][j] = 0
+			} else if board[i][j] == 2 {
+				board[i][j] = 1
+			}
+		}
+	}
+}
