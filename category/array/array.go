@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"slices"
+	"strconv"
 )
 
 // removeElement simple 27. 移除元素
@@ -799,4 +800,40 @@ func gameOfLife(board [][]int) {
 			}
 		}
 	}
+}
+
+// summaryRanges 228. 汇总区间
+// level: 中等
+// tag: 数组
+// https://leetcode.cn/problems/summary-ranges/description/
+func summaryRanges(nums []int) []string {
+	strs := make([]string, 0)
+	if len(nums) == 0 {
+		return strs
+	}
+	str := strconv.Itoa(nums[0])
+	start := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i] == nums[i-1]+1 {
+			continue
+		}
+		if nums[i-1] == start {
+			strs = append(strs, str)
+			str = strconv.Itoa(nums[i])
+			start = nums[i]
+		} else {
+			str = str + "->" + strconv.Itoa(nums[i-1])
+			strs = append(strs, str)
+			str = strconv.Itoa(nums[i])
+			start = nums[i]
+		}
+	}
+
+	if nums[len(nums)-1] == start {
+		strs = append(strs, str)
+	} else {
+		str = str + "->" + strconv.Itoa(nums[len(nums)-1])
+		strs = append(strs, str)
+	}
+	return strs
 }
