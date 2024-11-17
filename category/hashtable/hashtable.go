@@ -2,6 +2,7 @@ package hashtable
 
 import (
 	"sort"
+	"strings"
 )
 
 // isAnagram 242. 有效的字母异位词 https://leetcode.cn/problems/valid-anagram/
@@ -229,6 +230,30 @@ func isIsomorphic(s, t string) bool {
 		}
 		s2t[x] = y
 		t2s[y] = x
+	}
+	return true
+}
+
+// wordPattern 290. 单词规律
+// level: 简单
+// tag: 哈希
+// https://leetcode.cn/problems/word-pattern/description/
+func wordPattern(pattern string, s string) bool {
+	strs := strings.Split(s, " ")
+	if len(pattern) != len(strs) {
+		return false
+	}
+	a2Str := make(map[byte]string)
+	str2A := make(map[string]byte)
+	for i := 0; i < len(pattern); i++ {
+		str := a2Str[pattern[i]]
+		a := str2A[strs[i]]
+		if str != "" && str != strs[i] || a != 0 && a != pattern[i] {
+			return false
+		}
+		a2Str[pattern[i]] = strs[i]
+		str2A[strs[i]] = pattern[i]
+
 	}
 	return true
 }
