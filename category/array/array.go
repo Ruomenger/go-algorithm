@@ -693,3 +693,42 @@ func countValidSelections2(nums []int) int {
 
 	return ans
 }
+
+// minZeroArray 3356. 零数组变换 II
+// level: 中等
+// tag: 差分、二分
+// https://leetcode.cn/problems/zero-array-transformation-ii/description/
+func minZeroArray(nums []int, queries [][]int) int {
+	n, q := len(nums), len(queries)
+	diff := make([]int, n+1)
+	check := func(k int) bool {
+		for i := 0; i < len(diff); i++ {
+			diff[i] = 0
+		}
+		for i := 0; i < k; i++ {
+			diff[queries[i][0]] += queries[i][2]
+			diff[queries[i][1]+1] -= queries[i][2]
+		}
+		sum := 0
+		for i := 0; i < n; i++ {
+			sum += diff[i]
+			if sum < nums[i] {
+				return false
+			}
+		}
+		return true
+	}
+	if !check(q) {
+		return -1
+	}
+	left, right := 0, q
+	for left < right {
+		mid := (left + right) >> 1
+		if check(mid) {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	return left
+}
