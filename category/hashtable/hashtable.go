@@ -277,3 +277,19 @@ func groupAnagrams(strs []string) [][]string {
 	}
 	return ans
 }
+
+// containsNearbyDuplicate 219. 存在重复元素 II
+// level: 简单
+// tag: 哈希表
+// https://leetcode.cn/problems/contains-duplicate-ii/description/
+func containsNearbyDuplicate(nums []int, k int) bool {
+	var records = make(map[int]int, len(nums))
+	for idx, target := range nums {
+		if left, exists := records[target]; exists && (idx-left) <= k {
+			return true
+		}
+		records[target] = idx
+
+	}
+	return false
+}
