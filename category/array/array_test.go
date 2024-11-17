@@ -579,3 +579,27 @@ func Test_isZeroArray(t *testing.T) {
 		})
 	}
 }
+
+func Test_countValidSelections(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{[]int{1, 0, 2, 0, 3}}, 2},
+		{"test2", args{[]int{2, 3, 4, 0, 4, 1, 0}}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := countValidSelections(tt.args.nums); got != tt.want {
+				t.Errorf("countValidSelections() = %v, want %v", got, tt.want)
+			}
+			if got := countValidSelections2(tt.args.nums); got != tt.want {
+				t.Errorf("countValidSelections2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

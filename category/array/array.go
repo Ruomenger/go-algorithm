@@ -606,3 +606,90 @@ func isZeroArray(nums []int, queries [][]int) bool {
 
 	return true
 }
+
+// countValidSelections 3354. 使数组元素等于零
+// level: 简单
+// tag: 前缀和
+// note: 模拟解法
+// https://leetcode.cn/problems/make-array-elements-equal-to-zero/description/
+func countValidSelections(nums []int) int {
+	zeroIdx := make([]int, 0)
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 0 {
+			zeroIdx = append(zeroIdx, i)
+		}
+	}
+	check := func(nums []int) bool {
+		for i := 0; i < len(nums); i++ {
+			if nums[i] != 0 {
+				return false
+			}
+		}
+		return true
+	}
+	nums2 := make([]int, len(nums))
+	cnt := 0
+	for len(zeroIdx) != 0 {
+		// 先试着模拟向左
+		copy(nums2, nums)
+		idx := zeroIdx[0]
+		flag := -1
+		for i := idx + flag; i >= 0 && i < len(nums2); {
+			if nums2[i] > 0 {
+				nums2[i]--
+				flag = -flag
+				i += flag
+			} else {
+				i += flag
+			}
+		}
+		if check(nums2) {
+			cnt++
+		}
+
+		// 再试着模拟向右
+		copy(nums2, nums)
+		idx = zeroIdx[0]
+		flag = 1
+		for i := idx + flag; i >= 0 && i < len(nums2); {
+			if nums2[i] > 0 {
+				nums2[i]--
+				flag = -flag
+				i += flag
+			} else {
+				i += flag
+			}
+		}
+		if check(nums2) {
+			cnt++
+		}
+		zeroIdx = zeroIdx[1:]
+	}
+	return cnt
+}
+
+// countValidSelections 3354. 使数组元素等于零
+// level: 简单
+// tag: 前缀和
+// note: 前缀和解法
+// https://leetcode.cn/problems/make-array-elements-equal-to-zero/description/
+func countValidSelections2(nums []int) int {
+	n := len(nums)
+	prefix := make([]int, n)
+	prefix[0] = nums[0]
+	for i := 1; i < n; i++ {
+		prefix[i] = prefix[i-1] + nums[i]
+	}
+	ans := 0
+	for i := 0; i < n; i++ {
+		if nums[i] == 0 {
+			if prefix[i] == prefix[n-1]-prefix[i] {
+				ans += 2
+			} else if 2*prefix[i]-prefix[n-1] == 1 || 2*prefix[i]-prefix[n-1] == -1 {
+				ans += 1
+			}
+		}
+	}
+
+	return ans
+}
