@@ -776,3 +776,27 @@ func longestPalindromeSubseq(s string) int {
 	}
 	return dp[0][len1-1]
 }
+
+// longestPalindrome 5. 最长回文子串
+// level: 中等
+// tag: 动态规划
+// https://leetcode.cn/problems/longest-palindromic-substring/description/
+func longestPalindrome(s string) string {
+	lenS := len(s)
+	dp := make([][]bool, lenS)
+	for i := 0; i < lenS; i++ {
+		dp[i] = make([]bool, lenS)
+	}
+	maxStr := ""
+	for i := lenS - 1; i >= 0; i-- {
+		for j := i; j < lenS; j++ {
+			if s[i] == s[j] && (j-i <= 1 || dp[i+1][j-1]) {
+				dp[i][j] = true
+				if j-i+1 > len(maxStr) {
+					maxStr = s[i : j+1]
+				}
+			}
+		}
+	}
+	return maxStr
+}
