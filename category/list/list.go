@@ -251,3 +251,29 @@ func (this *MyLinkedList) DeleteAtIndex(index int) {
 		head.pre.next = head.next
 	}
 }
+
+// mergeTwoLists 21. 合并两个有序链表
+// level: 简单
+// tag: 链表
+// https://leetcode.cn/problems/merge-two-sorted-lists/description/
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	dummy := &ListNode{}
+	cur := dummy
+	for list1 != nil && list2 != nil {
+		if list1.Val < list2.Val {
+			cur.Next = list1
+			cur = cur.Next
+			list1 = list1.Next
+		} else {
+			cur.Next = list2
+			cur = cur.Next
+			list2 = list2.Next
+		}
+	}
+	if list1 != nil {
+		cur.Next = list1
+	} else {
+		cur.Next = list2
+	}
+	return dummy.Next
+}

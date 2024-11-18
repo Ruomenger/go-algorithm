@@ -105,3 +105,24 @@ func Test_removeNthFromEnd(t *testing.T) {
 		})
 	}
 }
+
+func Test_mergeTwoLists(t *testing.T) {
+	type args struct {
+		list1 *ListNode
+		list2 *ListNode
+	}
+	tests := []struct {
+		name string
+		args args
+		want *ListNode
+	}{
+		{"test1", args{nil, nil}, nil},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := mergeTwoLists(tt.args.list1, tt.args.list2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("mergeTwoLists() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
