@@ -277,3 +277,19 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	}
 	return dummy.Next
 }
+
+// mergeKLists 23. 合并 K 个升序链表
+// level: 困难
+// tag: 链表
+// https://leetcode.cn/problems/merge-k-sorted-lists/description/
+func mergeKLists(lists []*ListNode) *ListNode {
+	if len(lists) == 0 {
+		return nil
+	}
+	if len(lists) == 1 {
+		return lists[0]
+	}
+	left := mergeKLists(lists[:len(lists)/2])
+	right := mergeKLists(lists[len(lists)/2:])
+	return mergeTwoLists(left, right)
+}
