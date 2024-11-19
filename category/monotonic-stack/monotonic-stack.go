@@ -152,6 +152,36 @@ func carFleet(target int, position []int, speed []int) int {
 	return len(stack)
 }
 
+// StockSpanner 901. 股票价格跨度
+// level: 中等
+// tag: 单调栈
+// https://leetcode.cn/problems/online-stock-span/description/
+type StockSpanner struct {
+	stack [][2]int
+	day   int
+}
+
+func Constructor() StockSpanner {
+	return StockSpanner{
+		stack: make([][2]int, 0),
+	}
+}
+
+func (s *StockSpanner) Next(price int) int {
+	s.day++
+	ans := 1
+	for len(s.stack) != 0 && price >= s.stack[len(s.stack)-1][0] {
+		s.stack = s.stack[:len(s.stack)-1]
+	}
+	if len(s.stack) != 0 {
+		ans = s.day - s.stack[len(s.stack)-1][1]
+	} else {
+		ans = s.day
+	}
+	s.stack = append(s.stack, [2]int{price, s.day})
+	return ans
+}
+
 // trap 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
 // 双指针解法
 func trap(height []int) int {
