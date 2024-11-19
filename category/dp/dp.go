@@ -827,3 +827,38 @@ func longestCommonSubStr(s string, t string) string {
 	}
 	return maxStr
 }
+
+// isMatch 10. 正则表达式匹配
+// level: 困难
+// tag: 动态规划
+// https://leetcode.cn/problems/regular-expression-matching/description/
+func isMatch(s string, p string) bool {
+	n := len(s) + 1
+	m := len(p) + 1
+	dp := make([][]bool, n)
+	for i := 0; i < n; i++ {
+		dp[i] = make([]bool, m)
+	}
+	dp[0][0] = true
+	for i := 2; i < m; i++ {
+		if p[i-1] == '*' {
+			dp[0][i] = dp[0][i-2]
+		}
+	}
+	for i := 1; i < n; i++ {
+		for j := 1; j < m; j++ {
+			if s[i-1] == p[j-1] || p[j-1] == '.' {
+				dp[i][j] = dp[i-1][j-1]
+			} else if p[j-1] == '*' {
+				if s[i-1] == p[j-2] || p[j-2] == '.' {
+					dp[i][j] = dp[i-1][j] || dp[i][j-2]
+				} else {
+					dp[i][j] = dp[i][j-2]
+				}
+			} else {
+				dp[i][j] = false
+			}
+		}
+	}
+	return dp[n-1][m-1]
+}
