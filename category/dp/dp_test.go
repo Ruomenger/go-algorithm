@@ -898,3 +898,29 @@ func Test_isMatch(t *testing.T) {
 		})
 	}
 }
+
+func Test_longestValidParentheses(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{"()(())"}, 6},
+		{"test2", args{"(()"}, 2},
+		{"test3", args{")()())"}, 4},
+		{"test4", args{"((()))())"}, 8},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := longestValidParentheses(tt.args.s); got != tt.want {
+				t.Errorf("longestValidParentheses() = %v, want %v", got, tt.want)
+			}
+			if got := longestValidParentheses2(tt.args.s); got != tt.want {
+				t.Errorf("longestValidParentheses2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

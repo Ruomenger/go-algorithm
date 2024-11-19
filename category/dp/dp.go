@@ -862,3 +862,55 @@ func isMatch(s string, p string) bool {
 	}
 	return dp[n-1][m-1]
 }
+
+// longestValidParentheses 32. 最长有效括号
+// level: 困难
+// tag: 动态规划
+// https://leetcode.cn/problems/longest-valid-parentheses/description/
+func longestValidParentheses(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+	maxLen := 0
+	n := len(s)
+	dp := make([]int, n)
+	for i := 1; i < n; i++ {
+		if s[i] == ')' {
+			if s[i-1] == '(' {
+				dp[i] = 2
+				if i-2 >= 0 {
+					dp[i] = dp[i] + dp[i-2]
+				}
+			} else if dp[i-1] > 0 {
+				if i-dp[i-1]-1 >= 0 && s[i-dp[i-1]-1] == '(' {
+					dp[i] = dp[i-1] + 2
+					if (i - dp[i-1] - 2) >= 0 {
+						dp[i] = dp[i] + dp[i-dp[i-1]-2]
+					}
+				}
+			}
+			maxLen = max(dp[i], maxLen)
+		}
+	}
+	return maxLen
+}
+
+// longestValidParentheses2 使用栈模拟
+func longestValidParentheses2(s string) int {
+	stack := make([]int, 0)
+	maxLen := 0
+	stack = append(stack, -1)
+	for i := 0; i < len(s); i++ {
+		if s[i] == '(' {
+			stack = append(stack, i)
+		} else {
+			stack = stack[0 : len(stack)-1]
+			if len(stack) == 0 {
+				stack = append(stack, i)
+			} else {
+				maxLen = max(maxLen, i-stack[len(stack)-1])
+			}
+		}
+	}
+	return maxLen
+}
