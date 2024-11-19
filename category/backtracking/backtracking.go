@@ -439,3 +439,77 @@ func solveSudoku(board [][]byte) {
 	}
 	backtrace(0, 0)
 }
+
+// generateParenthesis 22. 括号生成
+// level: 中等
+// tag: 回溯、动态规划
+// https://leetcode.cn/problems/generate-parentheses/description/
+func generateParenthesis(n int) []string {
+	m := n * 2
+	path := make([]byte, m)
+	ans := make([]string, 0)
+	var dfs func(int, int)
+	dfs = func(i, left int) {
+		if i == m {
+			ans = append(ans, string(path))
+			return
+		}
+		if left < n {
+			path[i] = '('
+			dfs(i+1, left+1)
+		}
+		if i-left < left {
+			path[i] = ')'
+			dfs(i+1, left)
+		}
+	}
+	dfs(0, 0)
+	return ans
+}
+
+func generateParenthesis2(n int) []string {
+	var dp func(int) map[int][]string
+	dp = func(n int) map[int][]string {
+		if n == 0 {
+			return map[int][]string{0: {""}}
+		}
+		if n == 1 {
+			return map[int][]string{0: {""}, 1: {"()"}}
+		}
+		lastMap := dp(n - 1)
+		var oneRes []string
+		for i := 0; i < n; i++ {
+			inners := lastMap[i]
+			outers := lastMap[n-1-i]
+			for _, inner := range inners {
+				for _, outer := range outers {
+					oneRes = append(oneRes, "("+inner+")"+outer)
+				}
+			}
+		}
+		lastMap[n] = oneRes
+		return lastMap
+	}
+	return dp(n)[n]
+}
+
+func generateParenthesis3(n int) []string {
+	ans := make([]string, 0)
+	generate := func(string, int, int) {}
+	generate = func(s string, left, right int) {
+		if left == right && left == 0 {
+			ans = append(ans, s)
+			return
+		}
+		if left == right {
+			generate(s+"(", left-1, right)
+		} else {
+			if left > 0 {
+				generate(s+"(", left-1, right)
+			}
+			generate(s+")", left, right-1)
+		}
+	}
+	generate("", n, n)
+	return ans
+}
