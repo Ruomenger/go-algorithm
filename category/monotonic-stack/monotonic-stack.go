@@ -109,6 +109,28 @@ func nextLargerNodes(head *ListNode) []int {
 	return ans
 }
 
+// maxWidthRamp 962. 最大宽度坡
+// level: 中等
+// tag: 单调栈
+// https://leetcode.cn/problems/maximum-width-ramp/description/
+func maxWidthRamp(nums []int) int {
+	maxWidth := 0
+	n := len(nums)
+	stack := make([]int, 0)
+	for i := 0; i < n; i++ {
+		if len(stack) == 0 || nums[i] < nums[stack[len(stack)-1]] {
+			stack = append(stack, i)
+		}
+	}
+	for i := n - 1; i >= 0; i-- {
+		for len(stack) != 0 && nums[i] >= nums[stack[len(stack)-1]] {
+			maxWidth = max(maxWidth, i-stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+	}
+	return maxWidth
+}
+
 // trap 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
 // 双指针解法
 func trap(height []int) int {
