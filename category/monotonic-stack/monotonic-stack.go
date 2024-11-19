@@ -131,6 +131,27 @@ func maxWidthRamp(nums []int) int {
 	return maxWidth
 }
 
+// carFleet 853. 车队
+// level: 中等
+// tag: 单调栈
+// https://leetcode.cn/problems/car-fleet/description/
+func carFleet(target int, position []int, speed []int) int {
+	time := make([]float64, target)
+	for i := 0; i < len(position); i++ {
+		time[position[i]] = float64(target-position[i]) / float64(speed[i])
+	}
+	stack := make([]float64, 0)
+	for i := 0; i < target; i++ {
+		if time[i] > 0 {
+			for len(stack) != 0 && time[i] >= stack[len(stack)-1] {
+				stack = stack[:len(stack)-1]
+			}
+			stack = append(stack, time[i])
+		}
+	}
+	return len(stack)
+}
+
 // trap 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
 // 双指针解法
 func trap(height []int) int {
