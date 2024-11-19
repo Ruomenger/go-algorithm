@@ -1,5 +1,10 @@
 package monotonicstack
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 // dailyTemperatures 739. 每日温度 https://leetcode.cn/problems/daily-temperatures/description/
 func dailyTemperatures(temperatures []int) []int {
 	res := make([]int, len(temperatures))
@@ -78,6 +83,28 @@ func nextGreaterElements(nums []int) []int {
 		if i < n {
 			stack = append(stack, i)
 		}
+	}
+	return ans
+}
+
+// nextLargerNodes 1019. 链表中的下一个更大节点
+// level: 中等
+// tag: 单调栈
+// https://leetcode.cn/problems/next-greater-node-in-linked-list/
+func nextLargerNodes(head *ListNode) []int {
+	nums := make([]int, 0)
+	for head != nil {
+		nums = append(nums, head.Val)
+		head = head.Next
+	}
+	ans := make([]int, len(nums))
+	stack := make([]int, 0)
+	for i := 0; i < len(nums); i++ {
+		for len(stack) != 0 && nums[i] > nums[stack[len(stack)-1]] {
+			ans[stack[len(stack)-1]] = nums[i]
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i)
 	}
 	return ans
 }
