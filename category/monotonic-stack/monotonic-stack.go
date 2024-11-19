@@ -22,6 +22,22 @@ func dailyTemperatures(temperatures []int) []int {
 	return res
 }
 
+// finalPrices 1475. 商品折扣后的最终价格
+// level: 简单
+// tag: 单调栈
+// https://leetcode.cn/problems/final-prices-with-a-special-discount-in-a-shop/
+func finalPrices(prices []int) []int {
+	stack := make([]int, 0)
+	for i := 0; i < len(prices); i++ {
+		for len(stack) != 0 && prices[i] <= prices[stack[len(stack)-1]] {
+			prices[stack[len(stack)-1]] -= prices[i]
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i)
+	}
+	return prices
+}
+
 // nextGreaterElement 496. 下一个更大元素 I https://leetcode.cn/problems/next-greater-element-i/description/
 func nextGreaterElement(nums1, nums2 []int) []int {
 	num1ToIdx := make(map[int]int, len(nums1)) // 预分配空间
