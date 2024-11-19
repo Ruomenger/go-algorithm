@@ -800,3 +800,30 @@ func longestPalindrome(s string) string {
 	}
 	return maxStr
 }
+
+// longestCommonSubStr 最长公共子串
+// level: 中等
+// tag: 动态规划
+func longestCommonSubStr(s string, t string) string {
+	if len(s) == 0 || len(t) == 0 {
+		return ""
+	}
+	n := len(s) + 1
+	m := len(t) + 1
+	dp := make([][]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = make([]int, m)
+	}
+	maxStr := ""
+	for i := 1; i < n; i++ {
+		for j := 1; j < m; j++ {
+			if s[i-1] == t[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+				if dp[i][j] > len(maxStr) {
+					maxStr = s[i-dp[i][j] : i]
+				}
+			}
+		}
+	}
+	return maxStr
+}
