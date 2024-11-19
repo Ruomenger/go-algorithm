@@ -182,6 +182,33 @@ func (s *StockSpanner) Next(price int) int {
 	return ans
 }
 
+// longestWPI 1124. 表现良好的最长时间段
+// level: 中等
+// tag: 单调栈、前缀和
+func longestWPI(hours []int) int {
+	maxLen := 0
+	prefixSum := make([]int, len(hours)+1)
+	stack := []int{0}
+	for i := 1; i <= len(hours); i++ {
+		if hours[i-1] > 8 {
+			prefixSum[i] = prefixSum[i-1] + 1
+		} else {
+			prefixSum[i] = prefixSum[i-1] - 1
+		}
+		if prefixSum[i] < prefixSum[stack[len(stack)-1]] {
+			stack = append(stack, i-1)
+		}
+	}
+	for i := len(hours); i > 0; i-- {
+		for len(stack) != 0 && prefixSum[i] > prefixSum[stack[len(stack)-1]] {
+			maxLen = max(maxLen, i-stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
+		}
+	}
+
+	return maxLen
+}
+
 // trap 42. 接雨水 https://leetcode.cn/problems/trapping-rain-water/description/
 // 双指针解法
 func trap(height []int) int {
