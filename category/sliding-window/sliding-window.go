@@ -191,3 +191,26 @@ func minWindow2(s string, t string) string {
 	}
 	return s[start : start+length]
 }
+
+// maxSlidingWindow 239. 滑动窗口最大值
+// level: 困难
+// tag: 单调队列
+// https://leetcode.cn/problems/sliding-window-maximum/description/
+func maxSlidingWindow(nums []int, k int) []int {
+	ans := make([]int, 0, len(nums)-k+1)
+	queue := make([]int, 0, k)
+	for i, num := range nums {
+		for len(queue) > 0 && nums[queue[len(queue)-1]] <= num {
+			queue = queue[:len(queue)-1]
+		}
+		queue = append(queue, i)
+		if i-queue[0] >= k {
+			queue = queue[1:]
+		}
+		if i >= k-1 {
+			ans = append(ans, nums[queue[0]])
+		}
+	}
+
+	return ans
+}
