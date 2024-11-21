@@ -837,3 +837,21 @@ func summaryRanges(nums []int) []string {
 	}
 	return strs
 }
+
+// subarraySum 560. 和为 K 的子数组
+// level: 中等
+// tag: 前缀和、哈希
+// https://leetcode.cn/problems/subarray-sum-equals-k/description/
+func subarraySum(nums []int, k int) int {
+	prefixSum := make([]int, len(nums)+1)
+	for i := 1; i <= len(nums); i++ {
+		prefixSum[i] = prefixSum[i-1] + nums[i-1]
+	}
+	cnt := make(map[int]int)
+	ans := 0
+	for i := 0; i < len(prefixSum); i++ {
+		ans += cnt[prefixSum[i]-k]
+		cnt[prefixSum[i]]++
+	}
+	return ans
+}
