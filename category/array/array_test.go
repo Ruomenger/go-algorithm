@@ -710,3 +710,31 @@ func Test_subarraySum(t *testing.T) {
 		})
 	}
 }
+
+func Test_findInMountainArray(t *testing.T) {
+	type args struct {
+		target int
+		m      *MountainArray
+	}
+	m1 := &MountainArray{
+		nums: []int{1, 2, 3, 4, 5, 3, 1},
+	}
+	m2 := &MountainArray{
+		nums: []int{0, 1, 2, 4, 2, 1},
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"test1", args{3, m1}, 2},
+		{"test2", args{3, m2}, -1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := findInMountainArray(tt.args.target, tt.args.m); got != tt.want {
+				t.Errorf("findInMountainArray() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"slices"
+	"sort"
 	"strconv"
 )
 
@@ -854,4 +855,44 @@ func subarraySum(nums []int, k int) int {
 		cnt[prefixSum[i]]++
 	}
 	return ans
+}
+
+type MountainArray struct {
+	nums  []int
+	count int
+}
+
+func (m *MountainArray) get(index int) int {
+	m.count++
+	if m.count > 100 {
+		panic("exceed 100")
+	}
+	return m.nums[index]
+}
+
+func (m *MountainArray) length() int {
+	return len(m.nums)
+}
+
+// findInMountainArray 1095. 山脉数组中查找目标值
+// level: 困难
+// tag: 二分查找
+// https://leetcode.cn/problems/find-in-mountain-array/description/
+func findInMountainArray(target int, m *MountainArray) int {
+	length := m.length()
+	peak := sort.Search(length-1, func(i int) bool {
+		return m.get(i) >= m.get(i+1)
+	})
+	idx := sort.Search(peak, func(i int) bool {
+		return m.get(i) >= target
+	})
+	if m.get(idx) != target {
+		idx = peak + sort.Search(length-1-peak, func(i int) bool {
+			return m.get(peak+i) <= target
+		})
+		if m.get(idx) != target {
+			idx = -1
+		}
+	}
+	return idx
 }
