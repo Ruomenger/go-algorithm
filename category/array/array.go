@@ -896,3 +896,48 @@ func findInMountainArray(target int, m *MountainArray) int {
 	}
 	return idx
 }
+
+// shiftDistance 3361. 两个字符串的切换距离
+// level: 中等
+// tag: 前缀和
+// https://leetcode.cn/problems/shift-distance-between-two-strings/
+func shiftDistance(s string, t string, nextCost []int, previousCost []int) int64 {
+	costs := make(map[byte]map[byte]int)
+	for i := byte('a'); i <= 'z'; i++ {
+		costs[i] = make(map[byte]int)
+	}
+	nextCostPrefixSum := make([]int, 27)
+	for i := 1; i <= len(nextCost); i++ {
+		nextCostPrefixSum[i] = nextCost[i-1] + nextCostPrefixSum[i-1]
+	}
+	prevCostPrefixSum := make([]int, 27)
+	for i := 1; i <= len(previousCost); i++ {
+		prevCostPrefixSum[i] = previousCost[i-1] + prevCostPrefixSum[i-1]
+	}
+	for i := byte('a'); i <= 'z'; i++ {
+		for ch := byte('a'); ch <= 'z'; ch++ {
+			if ch >= i {
+				costs[i][ch] = nextCostPrefixSum[ch-'a'] - nextCostPrefixSum[i-'a']
+			} else {
+				costs[i][ch] = nextCostPrefixSum[26] - nextCostPrefixSum[i-'a'] + nextCostPrefixSum[ch-'a']
+			}
+		}
+	}
+	for i := byte('a'); i <= 'z'; i++ {
+		for ch := byte('a'); ch <= 'z'; ch++ {
+			newCost := 0
+			if ch <= i {
+				newCost = prevCostPrefixSum[i-'a'+1] - prevCostPrefixSum[ch-'a'+1]
+				costs[i][ch] = min(newCost, costs[i][ch])
+			} else {
+				newCost = prevCostPrefixSum[26] + prevCostPrefixSum[i-'a'+1] - prevCostPrefixSum[ch-'a'+1]
+				costs[i][ch] = min(newCost, costs[i][ch])
+			}
+		}
+	}
+	minCosts := int64(0)
+	for i := 0; i < len(s); i++ {
+		minCosts += int64(costs[s[i]][t[i]])
+	}
+	return minCosts
+}
