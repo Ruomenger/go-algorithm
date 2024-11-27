@@ -931,3 +931,28 @@ func Test_removeLeafNodes(t *testing.T) {
 		})
 	}
 }
+
+func Test_zigzagLevelOrder(t *testing.T) {
+	type args struct {
+		root *TreeNode
+	}
+	root1 := &TreeNode{Val: 3}
+	root1.Left = &TreeNode{Val: 9}
+	root1.Right = &TreeNode{Val: 20}
+	root1.Right.Left = &TreeNode{Val: 15}
+	root1.Right.Right = &TreeNode{Val: 7}
+	tests := []struct {
+		name string
+		args args
+		want [][]int
+	}{
+		{"test1", args{root1}, [][]int{{3}, {20, 9}, {15, 7}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := zigzagLevelOrder(tt.args.root); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("zigzagLevelOrder() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

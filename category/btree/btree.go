@@ -3,6 +3,7 @@ package btree
 import (
 	"container/list"
 	"math"
+	"slices"
 	"strconv"
 )
 
@@ -870,4 +871,38 @@ func removeLeafNodes(root *TreeNode, target int) *TreeNode {
 		return nil
 	}
 	return node
+}
+
+// zigzagLevelOrder 103. 二叉树的锯齿形层序遍历
+// level: 中等
+// tag: 二叉树、层序遍历
+// https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	ans := make([][]int, 0)
+	if root == nil {
+		return ans
+	}
+	queue := list.New()
+	flag := true
+	queue.PushBack(root)
+	for queue.Len() != 0 {
+		length := queue.Len()
+		nums := make([]int, 0, length)
+		for i := 0; i < length; i++ {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			nums = append(nums, node.Val)
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+		}
+		if !flag {
+			slices.Reverse(nums)
+		}
+		flag = !flag
+		ans = append(ans, slices.Clone(nums))
+	}
+	return ans
 }
